@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class MyColors{
-  static const  kPrimaryColor=Color(0xff247CFF);
+  static const  kPrimaryColor=Color(0xff6366b3);
+  static const  kGifBackGroundColor=Color(0xffe1f5ff);
+  static const  kGifIconColor=Color(0xff0091ff);
   static const  kBlackColor=Color(0xff242424);
   static const  kGreyColor=Color(0xff757575);
   static const  kLightGreyColor=Color(0xffC2C2C2);
   static const  kLighterGreyColor=Color(0xffEDEDED);
   static const  kMostLighterGreyColor=Color(0xffFDFDFF);
 
-
-  static const int primaryValue = 0xFF247CFF;
+  static const int primaryValue = 0xFF6366B3;
   static const MaterialColor kMapPrimaryColor = MaterialColor(
     primaryValue,
     <int, Color>{
