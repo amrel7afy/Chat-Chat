@@ -55,9 +55,9 @@ class _PhoneCountryCodeSelectorState extends State<PhoneCountryCodeSelector> {
                 selectedCountry.flagEmoji,
                 style: MyTextStyles.font20Weight700,
               ),
-               HorizontalSpacer(8),
+               const HorizontalSpacer(8),
               const Icon(FontAwesomeIcons.chevronDown,size: 15.6,color: MyColors.kPrimaryColor,),
-               HorizontalSpacer(16.3),
+               const HorizontalSpacer(16.3),
               SizedBox(height :24.h,child: const VerticalDivider())
             ],
           ),
