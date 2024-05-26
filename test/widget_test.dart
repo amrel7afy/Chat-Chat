@@ -9,12 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:new_chat_with_me/chat_with_me_app.dart';
 
-import 'package:new_chat_with_me/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const ChatWithMeApp());
+    await tester.pumpWidget(const ChatWithMeApp(initialRoute: '',));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

@@ -1,21 +1,35 @@
 
-
 import 'dart:developer';
-
-
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_chat_with_me/core/di/locator.dart';
+import 'package:new_chat_with_me/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import '../features/chatting/presentation/view/all_chats_view.dart';
 import '../features/chatting/presentation/view/messaging_view.dart';
 import '../features/information/presentation/view/information_view.dart';
 import '../features/login/presentation/view/login_view.dart';
 import '../features/login/presentation/view/otp_view.dart';
 import '../features/onboarding/presentation/view/onboarding_view.dart';
+import 'constants/constants.dart';
+import 'helper/cache_helper.dart';
 
 
 
 
 class AppRouter {
+  static Future<String> getInitialRouteFromSharedPreferences() async {
+    bool isSignedIn = await CacheHelper.getData(key: isSignedInKey) ?? false;
+    log('$isSignedIn isSignedIn');
+    bool isOnBoarded = await CacheHelper.getData(key: isOnBoardingKey) ?? false;
+    log('$isOnBoarded isOnBoarded');
+    if (isSignedIn) {
+      return homeView; // User is logged in, navigate to chatPage
+    } else if (isOnBoarded) {
+      return loginView; // User hasn't logged in but completed onboarding
+    } else {
+      return onBoardingView; // User hasn't completed onboarding
+    }
+  }
 
   static const String homeView = '/homeView';
   static const String onBoardingView = '/';
@@ -45,7 +59,9 @@ class AppRouter {
       case loginView:
         log('hello');
         return MaterialPageRoute(
-            builder: (context) =>  const LoginView());
+            builder: (context) =>  BlocProvider(
+                create: (context)=>locator<LoginCubit>(),
+                child: const LoginView()));
     }
     return null;
   }
