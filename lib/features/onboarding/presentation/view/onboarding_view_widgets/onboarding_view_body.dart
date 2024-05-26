@@ -31,7 +31,7 @@ class OnBoardingViewBody extends StatelessWidget {
                     'assets/gif/message.gif',
                   )),
                 const OnBoardingUpperTexts(),
-                VerticalSpacer(15),
+                 const VerticalSpacer(15),
                 CustomButton(
                     text: 'Message your contacts',
                     onPressed: () {

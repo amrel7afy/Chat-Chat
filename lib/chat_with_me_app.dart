@@ -5,7 +5,8 @@ import 'package:new_chat_with_me/core/theming/my_colors.dart';
 import 'core/AppRouter.dart';
 
 class ChatWithMeApp extends StatelessWidget {
-  const ChatWithMeApp({super.key});
+  final String initialRoute;
+  const ChatWithMeApp({super.key, required this.initialRoute});
 
   // This widget is the root of your application.
   @override
@@ -13,7 +14,7 @@ class ChatWithMeApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375,812),
       child: MaterialApp(
-        initialRoute: AppRouter.onBoardingView,
+        initialRoute: initialRoute,
         onGenerateRoute: AppRouter().generateRoute,
         theme: ThemeData(
           scaffoldBackgroundColor: MyColors.kGifBackGroundColor
