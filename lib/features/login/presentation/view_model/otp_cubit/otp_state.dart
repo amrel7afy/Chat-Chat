@@ -7,8 +7,8 @@ sealed class OTPState {}
 
 final class OTPInitial extends OTPState {}
 class OTPLoading extends OTPState {}
-class OTPVerified extends OTPState {}
 
+class OTPUserNotExists extends OTPState {}
 
 
 class OTPFailure  extends OTPState {

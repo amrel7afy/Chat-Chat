@@ -40,20 +40,20 @@ class LoginViewBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const VerticalSpacer(10),
+                  const VerticalSpacer(15),
                   Text(
                     'Registration',
                     style: MyTextStyles.font24Weight700
                         .copyWith(color: MyColors.kPrimaryColor),
                   ),
-                  const VerticalSpacer(15),
+                  const VerticalSpacer(20),
                   Text(
                     'Add your phone number. We\'ll send you a\nverification code.',
                     textAlign: TextAlign.center,
                     style: MyTextStyles.font14Weight500
                         .copyWith(color: MyColors.kPrimaryColor),
                   ),
-                  const VerticalSpacer(20),
+                  const VerticalSpacer(25),
                   const LoginForm(),
                 ],
               ),

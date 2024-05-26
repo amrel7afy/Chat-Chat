@@ -5,6 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../constants/constants.dart';
 
 abstract class MyTextStyles {
+  static const pinPut=TextStyle(
+      color:MyColors.kPrimaryColor,
+      fontSize: 25,
+      fontWeight: FontWeight.w500
+  );
   //----------------------------------------------
   static TextStyle font13Weight500 = TextStyle(
     fontSize: 13.sp,

@@ -1,13 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_chat_with_me/core/AppRouter.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
-
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/helper/cache_helper.dart';
 import '../../../../../core/shared/shared_repo.dart';
@@ -23,12 +19,11 @@ class OTPCubit extends Cubit<OTPState> {
 
   verifyOTP({
     required String verificationId,
-    required String userOTP,
   }) async {
     emit(OTPLoading());
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: verificationId, smsCode: userOTP);
+          verificationId: verificationId, smsCode: otpCode??'');
       User? user =
           (await locator<FirebaseAuth>().signInWithCredential(credential)).user;
       if (user != null) {
@@ -39,26 +34,19 @@ class OTPCubit extends Cubit<OTPState> {
             phoneNumber: '',
             profilePic: '',
             name: '');
-
-        emit(OTPVerified());
+        bool isUserExists = await checkExistingUser();
+        if (isUserExists) {
+          getTheUserFromFireStoreWithVerifiedUserID();
+        } else {
+          emit(OTPUserNotExists());
+        }
       }
     } on FirebaseAuthException catch (e) {
       emit(OTPFireBaseAuthFailure(e.toString()));
     }
   }
 
-  verifyOtp(context, otpCode, verificationId) async {
-    verifyOTP(
-      verificationId: verificationId,
-      userOTP: otpCode,
-    );
-    bool isUserExists = await checkExistingUser();
-    if (isUserExists) {
-      getTheUserFromFireStoreWithVerifiedUserID();
-    } else {
-      Navigator.pushReplacementNamed(context, AppRouter.informationView);
-    }
-  }
+
 
   Future<bool> checkExistingUser() async {
     try {
