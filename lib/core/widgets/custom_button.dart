@@ -42,9 +42,11 @@ class CustomButton extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(5),
-        child: Text(
-          text,
-          style: textStyle,
+        child: FittedBox(
+          child: Text(
+            text,
+            style: textStyle,
+          ),
         ),
       ),
     );

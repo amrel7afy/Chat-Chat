@@ -81,11 +81,11 @@ class _LoginAnimatedProgressButtonState
   }
 
   void playAnimation(LoginState state) async {
-    if (state is LoginLoadingState) {
+    if (state is LoginLoading) {
       setState(() => this.state = ButtonState.loading);
-    } else if (state is OTPSentState) {
+    } else if (state is OTPSent) {
       await otpSend(state);
-    } else if (state is LoginFailureState||state is LoginFireBaseAuthErrorState) {
+    } else if (state is LoginFailure||state is LoginFireBaseAuthFailure) {
       await failure();
     } else {
       setState(() => this.state = ButtonState.init);
@@ -98,7 +98,7 @@ class _LoginAnimatedProgressButtonState
     setState(() => state = ButtonState.init);
   }
 
-  Future<void> otpSend(OTPSentState state) async {
+  Future<void> otpSend(OTPSent state) async {
     setState(() {
       this.state = ButtonState.done;
     });
