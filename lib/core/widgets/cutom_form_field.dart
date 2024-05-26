@@ -18,6 +18,7 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? prefixIcon;
   final Color? backgroundColor;
   final FocusNode? focusNode;
+  final double? borderRadius;
   final Function(String? value) validator;
 
   const CustomTextFormField({
@@ -34,7 +35,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.controller,
     required this.validator,
     this.prefixIcon,
-    this.focusNode,
+    this.focusNode, this.borderRadius,
   });
 
   @override
@@ -47,10 +48,10 @@ class CustomTextFormField extends StatelessWidget {
         prefixIcon: prefixIcon,
         contentPadding: contentPadding ??
             EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
-        focusedBorder: focusedBorder ?? CustomBorders.focusedBorder(),
-        enabledBorder: enabledBorder ?? CustomBorders.enabledBorder(),
-        errorBorder: CustomBorders.errorBorder(),
-        focusedErrorBorder: CustomBorders.focusedErrorBorder(),
+        focusedBorder: focusedBorder ?? CustomBorders.focusedBorder(borderRadius: borderRadius??16.0),
+        enabledBorder: enabledBorder ?? CustomBorders.enabledBorder(borderRadius: borderRadius??16.0),
+        errorBorder: CustomBorders.errorBorder(borderRadius: borderRadius??16.0),
+        focusedErrorBorder: CustomBorders.focusedErrorBorder(borderRadius: borderRadius??16.0),
         hintStyle: hintStyle ??
             MyTextStyles.font14Weight500.copyWith(color: MyColors.kLightGreyColor),
         hintText: hintText,

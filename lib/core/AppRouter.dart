@@ -1,6 +1,9 @@
 
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_chat_with_me/core/di/locator.dart';
+import 'package:new_chat_with_me/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import '../features/chatting/presentation/view/all_chats_view.dart';
 import '../features/chatting/presentation/view/messaging_view.dart';
 import '../features/information/presentation/view/information_view.dart';
@@ -56,7 +59,9 @@ class AppRouter {
       case loginView:
         log('hello');
         return MaterialPageRoute(
-            builder: (context) =>  const LoginView());
+            builder: (context) =>  BlocProvider(
+                create: (context)=>locator<LoginCubit>(),
+                child: const LoginView()));
     }
     return null;
   }

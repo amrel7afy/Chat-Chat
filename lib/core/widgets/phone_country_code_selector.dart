@@ -8,7 +8,8 @@ import '../../../../../core/constants/methods.dart';
 import '../../../../../core/theming/styles.dart';
 
 class PhoneCountryCodeSelector extends StatefulWidget {
-  const PhoneCountryCodeSelector({super.key});
+  final Color? backGroundColor;
+  const PhoneCountryCodeSelector({super.key, this.backGroundColor});
 
   @override
   State<PhoneCountryCodeSelector> createState() => _PhoneCountryCodeSelectorState();
@@ -41,6 +42,7 @@ class _PhoneCountryCodeSelectorState extends State<PhoneCountryCodeSelector> {
               selectedCountry = country;
             });
           },countryListTheme:CountryListThemeData(
+          backgroundColor: widget.backGroundColor??Colors.white,
             bottomSheetHeight: getHeight(context) * .7)
 
         );

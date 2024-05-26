@@ -15,7 +15,7 @@ class CustomBorders {
   static OutlineInputBorder enabledBorder({double borderRadius = 16.0}) {
     return OutlineInputBorder(
       borderSide: const BorderSide(
-        color: MyColors.kLighterGreyColor,
+        color: MyColors.kPrimaryColor,
         width: 1.3,
       ),
       borderRadius: BorderRadius.circular(borderRadius),
