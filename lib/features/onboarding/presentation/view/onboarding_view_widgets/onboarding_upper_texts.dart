@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:new_chat_with_me/core/widgets/vertical_and_horizontal_space.dart';
+import 'package:new_chat_with_me/core/theming/my_colors.dart';
 
-import '../../../../../core/constants/constants.dart';
-import '../../../../../core/constants/methods.dart';
 import '../../../../../core/theming/styles.dart';
 
 class OnBoardingUpperTexts extends StatelessWidget {
@@ -10,16 +8,27 @@ class OnBoardingUpperTexts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
-      children: [Text(
-        'Let\'s get Started',
-        style: MyTextStyles.font24Weight700,
-      ),
-        VerticalSpacer(15),
-        Text(
-          'Never a better time than now to start',
-          style: MyTextStyles.font14Weight500,
-        ),],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          textAlign: TextAlign.start,
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Let\'s get Started\n',
+                style: MyTextStyles.font24Weight700.copyWith(color: MyColors.kPrimaryColor)
+              ),
+              TextSpan(
+                text: 'Never a better time than now to start',
+                style: MyTextStyles.font14Weight500.copyWith(height: 1.5,color: MyColors.kPrimaryColor),
+
+              ),
+            ],
+          ),
+        ),
+
+      ],
     );
   }
 }

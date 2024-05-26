@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_chat_with_me/core/theming/my_colors.dart';
 
 import 'core/AppRouter.dart';
 
@@ -14,6 +15,10 @@ class ChatWithMeApp extends StatelessWidget {
       child: MaterialApp(
         initialRoute: AppRouter.onBoardingView,
         onGenerateRoute: AppRouter().generateRoute,
+        theme: ThemeData(
+          scaffoldBackgroundColor: MyColors.kGifBackGroundColor
+        ),
+
       ),
     );
   }

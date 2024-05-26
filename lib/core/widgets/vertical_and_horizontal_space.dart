@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VerticalSpacer extends StatelessWidget {
-   VerticalSpacer(this.verticalSpace, {super.key});
+   const VerticalSpacer(this.space, {super.key});
 
-  double verticalSpace;
+  final double space;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(height: verticalSpace.h);
+    return SizedBox(height: space.h);
   }
 }
 
 class HorizontalSpacer extends StatelessWidget {
-   HorizontalSpacer(this.horizontalSpace, {super.key});
+   const HorizontalSpacer(this.space, {super.key});
 
-  double horizontalSpace;
+   final double space;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: horizontalSpace.w);
+    return SizedBox(width: space.w);
   }
 }

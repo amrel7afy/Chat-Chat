@@ -13,7 +13,8 @@ import 'onboarding_upper_texts.dart';
 
 
 class OnBoardingViewBody extends StatelessWidget {
-  const OnBoardingViewBody({super.key});
+  const
+  OnBoardingViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class OnBoardingViewBody extends StatelessWidget {
                     onPressed: () {
                       context.pushReplacementNamed(AppRouter.loginView);
                       CacheHelper.saveData(key: isOnBoardingKey, value: true);
-                    },textStyle: MyTextStyles.font23Weight700.copyWith(color: Colors.white),
+                    },textStyle: MyTextStyles.font20Weight700.copyWith(color: Colors.white),
                     backGroundColor: MyColors.kPrimaryColor
                 )
               ],
