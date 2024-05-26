@@ -38,7 +38,7 @@ class LoginViewBody extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: kLeftHomeViewPadding),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const VerticalSpacer(10),
                   Text(
@@ -48,7 +48,8 @@ class LoginViewBody extends StatelessWidget {
                   ),
                   const VerticalSpacer(15),
                   Text(
-                    'Add your phone number. We\'ll send you a\nverification code',
+                    'Add your phone number. We\'ll send you a\nverification code.',
+                    textAlign: TextAlign.center,
                     style: MyTextStyles.font14Weight500
                         .copyWith(color: MyColors.kPrimaryColor),
                   ),

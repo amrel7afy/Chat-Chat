@@ -1,7 +1,7 @@
 
 import 'dart:developer';
 
-import '../../../../../core/shared/user_model.dart';
+
 
 sealed class LoginState {}
 
@@ -27,9 +27,5 @@ class OTPSent extends LoginState  {
 
   OTPSent(this.verificationId);
 }
-class CacheSetSignedInToTrue extends LoginState {
-  final UserModel userModel;
 
-  CacheSetSignedInToTrue(this.userModel);
-}
 

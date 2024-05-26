@@ -6,8 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/core/helper/app_regex.dart';
 
-import '../../../../../core/constants/constants.dart';
-import '../../../../../core/helper/cache_helper.dart';
 import '../../../../../core/shared/shared_repo.dart';
 import 'login_state.dart';
 
@@ -26,11 +24,6 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
 
-  //setCacheSignedIn
-  Future setIsSignedInKeyToTrue() async {
-    await CacheHelper.saveData(key: isSignedInKey, value: true);
-    emit(CacheSetSignedInToTrue(sharedRepository.userModel));
-  }
 
 
   login(BuildContext context, String phoneNumber) async {
