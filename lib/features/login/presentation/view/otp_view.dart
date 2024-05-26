@@ -4,12 +4,13 @@ import 'otp_view_widgets/otp_view_body.dart';
 
 
 class OTPView extends StatelessWidget {
-  const OTPView({super.key});
+  final String verificationId;
+  const OTPView({super.key, required this.verificationId});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(child: OTPViewBody()),
+    return  Scaffold(
+      body: SafeArea(child: OTPViewBody(verificationId:verificationId)),
     );
   }
 }

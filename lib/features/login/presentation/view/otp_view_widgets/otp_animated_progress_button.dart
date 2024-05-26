@@ -3,34 +3,30 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/AppRouter.dart';
-import 'package:new_chat_with_me/core/helper/extensions.dart';
 
 import '../../../../../core/theming/my_colors.dart';
 import '../../../../../core/theming/styles.dart';
-import '../../../../../core/widgets/circluar_small_button.dart';
 import '../../../../../core/widgets/custom_button.dart';
-import '../../view_model/login_cubit/login_cubit.dart';
-import '../../view_model/login_cubit/login_state.dart';
+import '../../view_model/otp_cubit/otp_cubit.dart';
+import '../../view_model/otp_cubit/otp_state.dart';
 
 enum ButtonState { init, loading, done, error }
 
-class LoginAnimatedProgressButton extends StatefulWidget {
+class OTPAnimatedProgressButton extends StatefulWidget {
 
   final VoidCallback onPressed;
 
-  const LoginAnimatedProgressButton({
+  const OTPAnimatedProgressButton({
     super.key,
 
     required this.onPressed,
   });
 
   @override
-  State<LoginAnimatedProgressButton> createState() =>
-      _LoginAnimatedProgressButtonState();
+  State<OTPAnimatedProgressButton> createState() => _OTPAnimatedProgressButtonState();
 }
 
-class _LoginAnimatedProgressButtonState
-    extends State<LoginAnimatedProgressButton> {
+class _OTPAnimatedProgressButtonState extends State<OTPAnimatedProgressButton> {
   ButtonState state = ButtonState.init;
   bool isAnimating = true;
 
@@ -43,7 +39,7 @@ class _LoginAnimatedProgressButtonState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
+    return BlocConsumer<OTPCubit, OTPState>(
       listener: (context, state) {
         playAnimation(state);
       },
@@ -65,7 +61,7 @@ class _LoginAnimatedProgressButtonState
             curve: Curves.easeIn,
             child: isStretched
                 ? CustomButton(
-                  text: 'Login',
+                    text: 'VERIFY',
                     onPressed: widget.onPressed,
                     textStyle:
                         MyTextStyles.font20Weight600.copyWith(color: Colors.white),
@@ -80,34 +76,70 @@ class _LoginAnimatedProgressButtonState
     );
   }
 
-  void playAnimation(LoginState state) async {
-    if (state is LoginLoading) {
+  void playAnimation(OTPState state) async {
+    if (state is OTPLoading) {
       setState(() => this.state = ButtonState.loading);
-    } else if (state is OTPSent) {
-      await otpSend(state);
-    } else if (state is LoginFailure||state is LoginFireBaseAuthFailure) {
+    } else if (state is OTPSetSignedInToTrue) {
+      await otpVerified();
+    } else if (state is OTPFailure ||state is CacheUserModelFailure) {
       await failure();
-    } else {
-      setState(() => this.state = ButtonState.init);
     }
   }
 
   Future<void> failure() async {
-     setState(() => state = ButtonState.error);
-    await Future.delayed(const Duration(milliseconds: 900));
+    setState(() => state = ButtonState.error);
+    await Future.delayed(const Duration(milliseconds:  900));
     setState(() => state = ButtonState.init);
   }
 
-  Future<void> otpSend(OTPSent state) async {
+  Future<void> otpVerified() async {
     setState(() {
-      this.state = ButtonState.done;
+      state = ButtonState.done;
     });
-    await Future.delayed(const Duration(milliseconds: 400));
-    Future.microtask(() => context.pushNamed(
-         AppRouter.otpView,
-        arguments: state.verificationId));
-    setState(() => this.state = ButtonState.init);
+    await Future.delayed(const Duration(milliseconds: 100));
+    Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
+        context, AppRouter.homeView, (route) => false));
   }
 }
 
+class SmallButton extends StatelessWidget {
+  final bool isDone;
+  final bool isError;
 
+  const SmallButton(
+    this.isDone, {
+    super.key,
+    required this.isError,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final containerColor = getColor();
+    final icon= getIcon();
+
+    return Container(
+      decoration: BoxDecoration(shape: BoxShape.circle, color: containerColor),
+      child: Center(child: icon),
+    );
+  }
+
+  Color getColor() {
+    if (isError) {
+      return Colors.red;
+    } else if (isDone) {
+      return Colors.green;
+    } else {
+      return MyColors.kPrimaryColor;
+    }
+  }
+
+  Widget getIcon() {
+    if (isError) {
+      return const Icon(Icons.close,color:Colors.white,);
+    } else if (isDone) {
+      return const Icon(Icons.check,color:Colors.white,);
+    } else {
+      return const CircularProgressIndicator(color: Colors.white,);
+    }
+  }
+}

@@ -19,6 +19,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? backgroundColor;
   final FocusNode? focusNode;
   final double? borderRadius;
+  final TextInputType?textInputType;
   final Function(String? value) validator;
 
   const CustomTextFormField({
@@ -35,7 +36,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.controller,
     required this.validator,
     this.prefixIcon,
-    this.focusNode, this.borderRadius,
+    this.focusNode, this.borderRadius, this.textInputType,
   });
 
   @override
@@ -43,6 +44,7 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       focusNode: focusNode ?? FocusNode(),
+      keyboardType: textInputType??TextInputType.emailAddress,
       decoration: InputDecoration(
         isDense: true,
         prefixIcon: prefixIcon,

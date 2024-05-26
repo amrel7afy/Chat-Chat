@@ -1,27 +1,31 @@
 
 import 'dart:developer';
 
+
+
 sealed class LoginState {}
 
 final class LoginInitial extends LoginState {}
-class LoginLoadingState extends LoginState {}
-class LoginFailureState extends LoginState {
+class LoginLoading extends LoginState {}
+
+class LoginFailure  extends LoginState {
   final String error;
 
-  LoginFailureState(this.error){
+  LoginFailure (this.error){
     log(error.toString());
   }
 }
-class LoginFireBaseAuthErrorState extends LoginState {
+class LoginFireBaseAuthFailure  extends LoginState {
   final String error;
 
-  LoginFireBaseAuthErrorState(this.error){
+  LoginFireBaseAuthFailure (this.error){
     log(error.toString());
   }
 }
-class OTPSentState extends LoginState  {
+class OTPSent extends LoginState  {
   String verificationId;
 
-  OTPSentState(this.verificationId);
+  OTPSent(this.verificationId);
 }
+
 

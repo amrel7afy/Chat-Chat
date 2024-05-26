@@ -16,26 +16,29 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key:context.read<LoginCubit>().formKey ,
-      child: Column(children: [
-        CustomTextFormField(
-            prefixIcon: const PhoneCountryCodeSelector(
-              backGroundColor: MyColors.kGifBackGroundColor,
-            ),
-            borderRadius: 10,
-            backgroundColor: MyColors.kGifBackGroundColor,
-            hintText: 'Enter your phone number',
-            hintStyle: MyTextStyles.font14Weight500,
-            controller:
-            context.read<LoginCubit>().phoneNumberController,
-            validator: context.read<LoginCubit>().phoneValidator),
-        const VerticalSpacer(40),
-        LoginAnimatedProgressButton(onPressed: (){
-          if(context.read<LoginCubit>().formKey.currentState!.validate()){
-
-          }
-
-        }),
-      ],),);
+      key: context.read<LoginCubit>().formKey,
+      child: Column(
+        children: [
+          CustomTextFormField(
+            textInputType: TextInputType.phone,
+              prefixIcon: const PhoneCountryCodeSelector(
+                backGroundColor: MyColors.kGifBackGroundColor,
+              ),
+              borderRadius: 10,
+              backgroundColor: MyColors.kGifBackGroundColor,
+              hintText: 'Enter your phone number',
+              hintStyle: MyTextStyles.font14Weight500,
+              controller: context.read<LoginCubit>().phoneNumberController,
+              validator: context.read<LoginCubit>().phoneValidator),
+          const VerticalSpacer(40),
+          LoginAnimatedProgressButton(onPressed: () {
+            if (context.read<LoginCubit>().formKey.currentState!.validate()) {
+              context.read<LoginCubit>().login(context,
+                  '+2${context.read<LoginCubit>().phoneNumberController.text.trim()}');
+            }
+          }),
+        ],
+      ),
+    );
   }
 }

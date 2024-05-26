@@ -51,6 +51,7 @@ dependencies:
   firebase_storage:
 
   country_picker:
+  #for OTP fields
   pinput:
 
 
@@ -63,6 +64,8 @@ dependencies:
   firebase_app_check:
   intl:
   flutter_image_compress:
+
+
 
 
 dev_dependencies:
