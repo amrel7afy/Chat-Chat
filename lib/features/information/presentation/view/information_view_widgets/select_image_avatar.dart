@@ -22,25 +22,13 @@ class _SelectImageAvatarState extends State<SelectImageAvatar> {
     var userModelImage = locator<SharedRepository>().userModel.profilePic;
     if (checkImageFileIfNull()) {
       if (userModelImage.isNotEmpty && Uri.tryParse(userModelImage)?.hasAbsolutePath == true) {
-        return CircleAvatar(
-          radius: 45.0,
-          backgroundColor: Colors.blueGrey,
-          backgroundImage: NetworkImage(userModelImage),
-        );
+        return networkAvatar(userModelImage);
       } else {
-        return const CircleAvatar(
-          radius: 45.0,
-          backgroundColor: Colors.blueGrey,
-          backgroundImage: AssetImage('assets/images/profile.png'),
-        );
+        return  assetAvatar();
       }
     }
 
-    return CircleAvatar(
-      radius: 45,
-      backgroundColor: MyColors.kPrimaryColor,
-      backgroundImage: FileImage(locator<SharedRepository>().image!),
-    );
+    return pickedAvatar();
 
   }
 
@@ -53,4 +41,29 @@ class _SelectImageAvatarState extends State<SelectImageAvatar> {
           return getImageFileAvatar(context);
         }));
   }
+
+  CircleAvatar pickedAvatar() {
+    return CircleAvatar(
+      radius: 45,
+      backgroundColor: MyColors.kPrimaryColor,
+      backgroundImage: FileImage(locator<SharedRepository>().image!),
+    );
+  }
+
+  CircleAvatar assetAvatar() {
+    return const CircleAvatar(
+      radius: 45.0,
+      backgroundColor: Colors.blueGrey,
+      backgroundImage: AssetImage('assets/images/profile.png'),
+    );
+  }
+
+  CircleAvatar networkAvatar(String userModelImage) {
+    return CircleAvatar(
+      radius: 45.0,
+      backgroundColor: Colors.blueGrey,
+      backgroundImage: NetworkImage(userModelImage),
+    );
+  }
+
 }
