@@ -7,10 +7,10 @@ import '../theming/styles.dart';
 
 class PinPutBuilder extends StatefulWidget {
   final String? otpCode;
-   Function(String?)? onChange;
-   Function(String?)? onSubmitted;
-   Function(String?)? onCompleted;
-   PinPutBuilder({super.key,required this.otpCode,this.onChange,this.onSubmitted,this.onCompleted});
+   final Function(String?)? onChange;
+   final Function(String?)? onSubmitted;
+   final Function(String?)? onCompleted;
+   const PinPutBuilder({super.key,required this.otpCode,this.onChange,this.onSubmitted,this.onCompleted});
 
   @override
   State<PinPutBuilder> createState() => _PinPutBuilderState();
