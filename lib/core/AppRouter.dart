@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
+import 'package:new_chat_with_me/features/information/presentation/view_model/information_cubit.dart';
 import 'package:new_chat_with_me/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:new_chat_with_me/features/login/presentation/view_model/otp_cubit/otp_cubit.dart';
 import '../features/chatting/presentation/view/all_chats_view.dart';
@@ -12,7 +13,6 @@ import '../features/login/presentation/view/otp_view.dart';
 import '../features/onboarding/presentation/view/onboarding_view.dart';
 import 'constants/constants.dart';
 import 'helper/cache_helper.dart';
-
 
 class AppRouter {
   static Future<String> getInitialRouteFromSharedPreferences() async {
@@ -39,37 +39,34 @@ class AppRouter {
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case homeView:
-        return MaterialPageRoute(
-            builder: (context) => const AllChatsView());
+        return MaterialPageRoute(builder: (context) => const AllChatsView());
 
       case otpView:
         log('otpView');
         final String verificationId = settings.arguments as String;
         return MaterialPageRoute(
-            builder: (context) =>
-                BlocProvider(
+            builder: (context) => BlocProvider(
                   create: (context) => locator<OTPCubit>(),
                   child: OTPView(verificationId: verificationId),
                 ));
       case messagingView:
         log('messagingView');
-        return MaterialPageRoute(
-            builder: (context) => const MessagingView());
+        return MaterialPageRoute(builder: (context) => const MessagingView());
       case informationView:
         log('informationView');
         return MaterialPageRoute(
-            builder: (context) => const InformationView());
+            builder: (context) => BlocProvider(
+                create: (context) => locator<InformationCubit>(),
+                child: const InformationView()));
       case onBoardingView:
         log('onBoardingView');
-        return MaterialPageRoute(
-            builder: (context) => const OnBoardingView());
+        return MaterialPageRoute(builder: (context) => const OnBoardingView());
       case loginView:
         log('loginView');
         return MaterialPageRoute(
-            builder: (context) =>
-                BlocProvider(
-                    create: (context) => locator<LoginCubit>(),
-                    child: const LoginView()));
+            builder: (context) => BlocProvider(
+                create: (context) => locator<LoginCubit>(),
+                child: const LoginView()));
     }
     return null;
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_chat_with_me/features/information/presentation/view/information_view_widgets/select_image_avatar_consumer.dart';
 
 import '../../../../../core/constants/constants.dart';
 
@@ -12,10 +13,13 @@ class InformationViewBody extends StatelessWidget {
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.only(left: kLeftHomeViewPadding, top: 5),
+            padding: EdgeInsets.symmetric(horizontal: kLeftHomeViewPadding,),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [],
+              children: [
+
+                SelectImageAvatarConsumer()
+              ],
             ),
           ),
         ),
