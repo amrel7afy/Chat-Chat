@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'dart:typed_data';
 import'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+
 import 'constants.dart';
 String removeSubString(String string, String subString) {
   String escapedSubstring = RegExp.escape(subString);
@@ -25,6 +29,28 @@ void pushReplacementWithDelayed(context,widgetId) {
 void navigateTo(context,widgetId,{arguments}) {
     Navigator.pushNamed(context, widgetId,arguments: arguments);
 
+}
+Future<File> compressImage(File file) async {
+
+
+
+  Uint8List imageData = Uint8List.fromList(await file.readAsBytes());
+
+  // Compress the image
+  List<int> compressedImageData = await FlutterImageCompress.compressWithList(
+    imageData,
+    minHeight: 400, // optional, set the minimum height of the image
+    minWidth: 500, // optional, set the minimum width of the image
+    quality: 50, // set the quality of the compressed image (0 to 100)
+    rotate: 0, // set the rotation angle of the image
+    format: CompressFormat.jpeg, // set the format of the compressed image
+  );
+
+  // Create a new File object with the compressed image data
+  File compressedFile = File(file.path)
+    ..writeAsBytesSync(compressedImageData);
+
+  return compressedFile;
 }
 
 

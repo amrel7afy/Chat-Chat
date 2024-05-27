@@ -85,7 +85,7 @@ class _ConfirmInfoAnimatedProgressButtonState
   void playAnimation(InformationState state) async {
     if (state is InformationLoading) {
       setState(() => this.state = ButtonState.loading);
-    } else if (state is CacheSetSignedInToTrueState) {
+    } else if (state is InformationSuccess) {
       await createUserStore( state);
     } else if (state is InformationFailure) {
       await failure();
@@ -98,11 +98,18 @@ class _ConfirmInfoAnimatedProgressButtonState
     setState(() => state = ButtonState.init);
   }
 
-  Future<void> createUserStore(CacheSetSignedInToTrueState state) async {
+  Future<void> createUserStore(InformationSuccess state) async {
+    if (!mounted) return; // Check if the widget is still mounted
+
     setState(() {
       this.state = ButtonState.done;
     });
     await Future.delayed(const Duration(milliseconds: 400));
+
+    // Check again if the widget is still mounted before accessing the context
+    if (!mounted) return;
+
+    // Access the context and perform the navigation
     Future.microtask(() =>  context.pushReplacementNamed(AppRouter.homeView,
         arguments: state.userModel)
     );

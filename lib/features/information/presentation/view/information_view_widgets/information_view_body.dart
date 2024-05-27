@@ -34,27 +34,23 @@ class InformationViewBody extends StatelessWidget {
                     const VerticalSpacer(20),
                     const InformationForm(),
                     const VerticalSpacer(20),
-                    ConfirmInfoAnimatedProgressButton(onPressed: () {
-                      if (context
-                          .read<InformationCubit>()
-                          .formKey
-                          .currentState!
-                          .validate()) {
-
-                      }
-                    })
+                    ConfirmInfoAnimatedProgressButton(
+                      onPressed: () {
+                        validateAndCreateUser(context);
+                      },
+                    )
                   ],
                 ),
               );
             },
             listener: (BuildContext context, state) {
-              if (state is PickImageFailure) {
+              if (state is InformationPickImageFailure) {
                 showSnackBar(context, state.error);
               }
-              if (state is StoringFireStoreErrorState) {
+              if (state is InformationStoringFireStoreErrorState) {
                 showSnackBar(context, state.error);
               }
-              if (state is CacheSetSignedInToTrueState) {
+              if (state is InformationSuccess) {
                 Navigator.pushReplacementNamed(context, AppRouter.homeView,
                     arguments: state.userModel);
                 log('Navigated');
@@ -64,5 +60,14 @@ class InformationViewBody extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void validateAndCreateUser(BuildContext context) {
+     if (context.read<InformationCubit>().formKey.currentState!.validate() &&
+        context.read<InformationCubit>().imageValidator() == null) {
+      context.read<InformationCubit>().createUserToFireStore();
+    } else if (context.read<InformationCubit>().imageValidator() != null) {
+      showSnackBar(context, context.read<InformationCubit>().imageValidator()!);
+    }
   }
 }

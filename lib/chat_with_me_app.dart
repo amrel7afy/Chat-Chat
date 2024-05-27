@@ -14,8 +14,8 @@ class ChatWithMeApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375,812),
       child: MaterialApp(
-        initialRoute:AppRouter.informationView,
-        //initialRoute: initialRoute,
+        //initialRoute:AppRouter.informationView,
+        initialRoute: initialRoute,
         onGenerateRoute: AppRouter().generateRoute,
         theme: ThemeData(
           scaffoldBackgroundColor: MyColors.kGifBackGroundColor

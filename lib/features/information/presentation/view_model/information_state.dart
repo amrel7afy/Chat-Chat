@@ -7,26 +7,28 @@ sealed class InformationState {}
 
 final class InformationInitial extends InformationState {}
 final class InformationLoading extends InformationState {}
+
 final class InformationFailure extends InformationState {}
 
-class PickImageSuccess extends InformationState {}
-class PickImageFailure  extends InformationState {
+class InformationPickImageSuccess extends InformationState {}
+class InformationPickImageFailure  extends InformationState {
   final String error;
 
-  PickImageFailure (this.error){
+  InformationPickImageFailure (this.error){
     log(error.toString());
   }
 }
-class StoringFireStoreErrorState extends InformationState {
+class InformationStoringFireStoreErrorState extends InformationState {
   String error;
 
-  StoringFireStoreErrorState(this.error) {
+  InformationStoringFireStoreErrorState(this.error) {
     log(error);
   }
 }
 
-class CacheSetSignedInToTrueState extends InformationState {
+class InformationSuccess extends InformationState {
   UserModel userModel;
 
-  CacheSetSignedInToTrueState(this.userModel);
+  InformationSuccess(this.userModel);
 }
+final class InformationStoringUserFireStoreSuccess extends InformationState {}

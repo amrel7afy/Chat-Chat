@@ -24,7 +24,7 @@ class OnBoardingViewBody extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: kLeftHomeViewPadding, top: 5),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [SizedBox(
                   height: getHeight(context) * 0.6,
                   child: Image.asset(

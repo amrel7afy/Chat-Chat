@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 
@@ -12,6 +13,7 @@ GetIt locator = GetIt.instance;
 void setupLocator() {
  locator.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
   locator.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+  locator.registerLazySingleton<FirebaseStorage>(() => FirebaseStorage.instance);
   locator.registerLazySingleton<SharedRepository>(() => SharedRepository());
   // locator.registerLazySingleton<AddReceiverChatDataCubit>(() => AddReceiverChatDataCubit());
   //locator.registerLazySingleton<ListenToMessagesCubit>(() => ListenToMessagesCubit());

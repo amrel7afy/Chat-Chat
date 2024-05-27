@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/helper/cache_helper.dart';
+import '../../../../../core/shared/methods.dart';
 import '../../../../../core/shared/shared_repo.dart';
 import '../../../../../core/shared/user_model.dart';
 
@@ -80,9 +80,9 @@ class OTPCubit extends Cubit<OTPState> {
           phoneNumber: documentSnapshot['phoneNumber'],
           profilePic: documentSnapshot['profilePic']);
       log('getUserFromFireStore');
-      await saveUserToSP().then((value) {
-        setIsSignedInKeyToTrue();
-      });
+      await saveUserToSP(sharedRepository.userModel);
+        await setIsSignedInKeyToTrue();
+
     }
   }
 
@@ -92,17 +92,5 @@ class OTPCubit extends Cubit<OTPState> {
     emit(OTPSetSignedInToTrue(sharedRepository.userModel));
   }
 
-  Future saveUserToSP() async {
-    try {
-      String userJson = jsonEncode(sharedRepository.userModel.toJson());
-      await CacheHelper.saveData(
-        key: userModelKey,
-        value: userJson,
-      );
-      emit(CacheSaveUserModelSuccess());
-    } catch (e) {
-      log(e.toString());
-      emit(CacheUserModelFailure(e.toString()));
-    }
-  }
+
 }
