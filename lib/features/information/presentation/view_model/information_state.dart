@@ -6,6 +6,8 @@ import '../../../../core/shared/user_model.dart';
 sealed class InformationState {}
 
 final class InformationInitial extends InformationState {}
+final class InformationLoading extends InformationState {}
+final class InformationFailure extends InformationState {}
 
 class PickImageSuccess extends InformationState {}
 class PickImageFailure  extends InformationState {

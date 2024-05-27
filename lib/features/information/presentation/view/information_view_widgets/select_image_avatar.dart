@@ -53,7 +53,7 @@ class _SelectImageAvatarState extends State<SelectImageAvatar> {
   CircleAvatar assetAvatar() {
     return const CircleAvatar(
       radius: 45.0,
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: MyColors.kLightGreyColor,
       backgroundImage: AssetImage('assets/images/profile.png'),
     );
   }
