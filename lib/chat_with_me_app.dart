@@ -18,7 +18,15 @@ class ChatWithMeApp extends StatelessWidget {
         initialRoute: initialRoute,
         onGenerateRoute: AppRouter().generateRoute,
         theme: ThemeData(
-          scaffoldBackgroundColor: MyColors.kGifBackGroundColor
+          scaffoldBackgroundColor: MyColors.kGifBackGroundColor,
+          appBarTheme:  const AppBarTheme(
+            color: MyColors.kGifBackGroundColor,
+          ),
+          iconButtonTheme: IconButtonThemeData(style: ButtonStyle(
+        iconColor: MaterialStateProperty.all<Color>(
+          MyColors.kPrimaryColor,
+        ),
+      )),
         ),
 
       ),
