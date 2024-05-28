@@ -20,16 +20,9 @@ void main() async {
   await _initializeFirebase();
   setupLocator();
   _setSystemUIOverlayStyle();
-  String initialRoute = await AppRouter.getInitialRouteFromSharedPreferences();
-  runApp(ChatWithMeApp(initialRoute: initialRoute));
+  final String initialRoute = await AppRouter.getInitialRouteFromSharedPreferences();
+  runApp( ChatWithMeApp(initialRoute: initialRoute));
 }
-
-
-
-
-
-
-
 
 
 

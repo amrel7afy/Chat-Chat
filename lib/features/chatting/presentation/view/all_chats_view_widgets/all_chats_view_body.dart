@@ -12,10 +12,12 @@ class AllChatsViewBody extends StatelessWidget {
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.only(left: kLeftHomeViewPadding, top: 5),
+            padding: EdgeInsets.symmetric(horizontal: kLeftHomeViewPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [],
+              children: [
+
+              ],
             ),
           ),
         ),

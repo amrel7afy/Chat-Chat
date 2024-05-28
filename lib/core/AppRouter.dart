@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
+import 'package:new_chat_with_me/features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
 import 'package:new_chat_with_me/features/information/presentation/view_model/information_cubit.dart';
 import 'package:new_chat_with_me/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:new_chat_with_me/features/login/presentation/view_model/otp_cubit/otp_cubit.dart';
@@ -35,11 +36,15 @@ class AppRouter {
   static const String informationView = '/informationView';
   static const String otpView = '/otpView';
   static const String messagingView = '/messagingView';
+  static const String profileView = '/profileView';
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case homeView:
-        return MaterialPageRoute(builder: (context) => const AllChatsView());
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+                create: (context) => locator<ChattingCubit>(),
+                child: const AllChatsView()));
 
       case otpView:
         log('otpView');

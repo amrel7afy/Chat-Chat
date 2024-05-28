@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 
+import '../../features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
 import '../../features/information/presentation/view_model/information_cubit.dart';
 import '../../features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import '../../features/login/presentation/view_model/otp_cubit/otp_cubit.dart';
@@ -20,4 +21,5 @@ void setupLocator() {
   locator.registerFactory<LoginCubit>(() => LoginCubit(locator<SharedRepository>()));
   locator.registerFactory<OTPCubit>(() => OTPCubit(locator<SharedRepository>()));
   locator.registerFactory<InformationCubit>(() => InformationCubit(locator<SharedRepository>()));
+  locator.registerFactory<ChattingCubit>(() => ChattingCubit(locator<SharedRepository>()));
 }
