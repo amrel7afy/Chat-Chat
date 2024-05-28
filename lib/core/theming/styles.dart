@@ -11,6 +11,22 @@ abstract class MyTextStyles {
       fontWeight: FontWeight.w500
   );
   //----------------------------------------------
+  static TextStyle font11Weight500 = TextStyle(
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w500,
+    color: MyColors.kGreyColor,
+  );
+  static TextStyle font11Weight600 = TextStyle(
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w600,
+    color: MyColors.kGreyColor,
+  );
+  static TextStyle font11Weight700 = TextStyle(
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w700,
+    color: MyColors.kGreyColor,
+  );
+  //----------------------------------------------
   static TextStyle font13Weight500 = TextStyle(
     fontSize: 13.sp,
     fontWeight: FontWeight.w500,

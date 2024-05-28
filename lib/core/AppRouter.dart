@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
+import 'package:new_chat_with_me/features/contacts/presentation/view/contacts_view.dart';
+import 'package:new_chat_with_me/features/contacts/presentation/view_model/check_contact_cubit/check_contacts_cubit.dart';
 import 'package:new_chat_with_me/features/information/presentation/view_model/information_cubit.dart';
 import 'package:new_chat_with_me/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:new_chat_with_me/features/login/presentation/view_model/otp_cubit/otp_cubit.dart';
@@ -73,6 +75,12 @@ class AppRouter {
             builder: (context) => BlocProvider(
                 create: (context) => locator<LoginCubit>(),
                 child: const LoginView()));
+      case contactsView:
+        log('loginView');
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+                create: (context) => locator<CheckContactsCubit>(),
+                child: const ContactsView()));
     }
     return null;
   }
