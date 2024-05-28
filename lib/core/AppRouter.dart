@@ -37,6 +37,7 @@ class AppRouter {
   static const String otpView = '/otpView';
   static const String messagingView = '/messagingView';
   static const String profileView = '/profileView';
+  static const String contactsView = '/contactsView';
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
