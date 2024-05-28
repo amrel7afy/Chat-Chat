@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/AppRouter.dart';
 import 'package:new_chat_with_me/core/helper/extensions.dart';
+import 'package:new_chat_with_me/core/theming/my_colors.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
 
 import '../../../../../core/constants/constants.dart';
@@ -34,13 +35,13 @@ class PopUpMenu extends StatelessWidget {
           value: 'Profile',
           child: Text(
             'Profile',
-            style: MyTextStyles.font14Weight500,
+            style: MyTextStyles.font14Weight500.copyWith(color: MyColors.kPrimaryColor),
           ),
         ),
          PopupMenuItem<String>(
           height: 50,
           value: 'Log Out',
-          child: Text('Log Out', style: MyTextStyles.font14Weight500),
+          child: Text('Log Out', style: MyTextStyles.font14Weight500.copyWith(color: MyColors.kPrimaryColor)),
         ),
       ],
     );

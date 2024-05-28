@@ -43,7 +43,7 @@ class AppRouter {
       case homeView:
         return MaterialPageRoute(
             builder: (context) => BlocProvider(
-                create: (context) => locator<ChattingCubit>(),
+                create: (context) => locator<ChattingCubit>()..listenToAllChats(),lazy: false,
                 child: const AllChatsView()));
 
       case otpView:

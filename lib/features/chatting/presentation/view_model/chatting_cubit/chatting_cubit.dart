@@ -36,13 +36,14 @@ class ChattingCubit extends Cubit<ChattingState> {
 
       chatStream.listen(
             (querySnapshot) {
-              sharedRepository.  userChats = querySnapshot.docs
+              sharedRepository.userChats = querySnapshot.docs
               .map((chatDoc) => ChatModel.fromJson(chatDoc.data()))
               .toList();
 
           if (sharedRepository.userChats.isEmpty) {
             emit(ChattingNoChats());
           } else {
+            sharedRepository.userChats.removeWhere((element) => element.phoneNumber==sharedRepository.userModel.phoneNumber);
             emit(ChattingSuccess(sharedRepository.userChats));
             log(sharedRepository.userChats.first.name.toString());
           }
