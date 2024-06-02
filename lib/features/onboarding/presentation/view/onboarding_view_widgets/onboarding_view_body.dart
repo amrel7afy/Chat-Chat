@@ -22,7 +22,7 @@ class OnBoardingViewBody extends StatelessWidget {
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.only(left: kLeftHomeViewPadding, top: 5),
+            padding: const EdgeInsets.symmetric(horizontal: kLeftHomeViewPadding,),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [SizedBox(

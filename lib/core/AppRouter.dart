@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
+import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_all_users_cubit/listen_to_all_users_cubit.dart';
 import 'package:new_chat_with_me/features/contacts/presentation/view/contacts_view.dart';
 import 'package:new_chat_with_me/features/contacts/presentation/view_model/check_contact_cubit/check_contacts_cubit.dart';
 import 'package:new_chat_with_me/features/information/presentation/view_model/information_cubit.dart';
@@ -45,9 +46,14 @@ class AppRouter {
     switch (settings.name) {
       case homeView:
         return MaterialPageRoute(
-            builder: (context) => BlocProvider(
-                create: (context) => locator<ChattingCubit>()..listenToAllChats(),lazy: false,
-                child: const AllChatsView()));
+            builder: (context) => MultiBlocProvider(providers: [
+                  BlocProvider(
+                      create: (context) =>
+                          locator<ChattingCubit>()..listenToAllChats()),
+              BlocProvider(
+                      create: (context) =>
+                          locator<ListenToAllUsersCubit>()..listenToAllUsers(),lazy: false,),
+                ], child: const AllChatsView()));
 
       case otpView:
         log('otpView');

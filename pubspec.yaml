@@ -54,8 +54,6 @@ dependencies:
   #for OTP fields
   pinput:
 
-
-
   image_picker:
 
   get_it:

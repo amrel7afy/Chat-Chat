@@ -18,7 +18,7 @@ class AllChatsViewBody extends StatelessWidget {
       child: BlocBuilder<ChattingCubit, ChattingState>(
         builder: (context, state) {
            if (state is ChattingSuccess) {
-            return const ChatSuccessBody( chats: [],);
+            return  ChatSuccessBody( chats:state.chats);
           }
           else if(state is ChattingNoChats){
             return const CustomErrorMessage(errorMessage: 'No Chats');
