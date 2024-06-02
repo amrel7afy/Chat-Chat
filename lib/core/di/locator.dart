@@ -4,9 +4,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_all_users_cubit/listen_to_all_users_cubit.dart';
-import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_all_users_cubit/listen_to_all_users_cubit.dart';
 
 import '../../features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
+import '../../features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import '../../features/contacts/presentation/view_model/check_contact_cubit/check_contacts_cubit.dart';
 import '../../features/information/presentation/view_model/information_cubit.dart';
 import '../../features/login/presentation/view_model/login_cubit/login_cubit.dart';
@@ -30,6 +30,7 @@ void setupLocator() {
  locator.registerFactory<ChattingCubit>(() => ChattingCubit(locator<SharedRepository>()));
  locator.registerFactory<CheckContactsCubit>(() => CheckContactsCubit(locator<SharedRepository>()));
  locator.registerFactory<ListenToAllUsersCubit>(() => ListenToAllUsersCubit(locator<SharedRepository>()));
+ locator.registerFactory<ListenToMessagesCubit>(() => ListenToMessagesCubit(locator<SharedRepository>()));
 
  // locator.registerFactory<AddReceiverChatDataCubit>(() => AddReceiverChatDataCubit(locator<SharedRepository>()));
  // locator.registerFactory<EditProfileCubit>(() => EditProfileCubit(locator<SharedRepository>()));

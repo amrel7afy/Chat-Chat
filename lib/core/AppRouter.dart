@@ -2,8 +2,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
+import 'package:new_chat_with_me/core/shared/user_model.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_all_users_cubit/listen_to_all_users_cubit.dart';
+import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import 'package:new_chat_with_me/features/contacts/presentation/view/contacts_view.dart';
 import 'package:new_chat_with_me/features/contacts/presentation/view_model/check_contact_cubit/check_contacts_cubit.dart';
 import 'package:new_chat_with_me/features/information/presentation/view_model/information_cubit.dart';
@@ -65,7 +67,11 @@ class AppRouter {
                 ));
       case messagingView:
         log('messagingView');
-        return MaterialPageRoute(builder: (context) => const MessagingView());
+        final friendModel = settings.arguments as UserModel;
+        return MaterialPageRoute(builder: (context) =>  BlocProvider(
+          create: (context) => locator<ListenToMessagesCubit>(),
+  child: MessagingView(friendModel:friendModel),
+));
       case informationView:
         log('informationView');
         return MaterialPageRoute(
