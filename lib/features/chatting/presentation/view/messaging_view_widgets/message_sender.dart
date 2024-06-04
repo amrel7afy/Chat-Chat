@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
+import 'package:new_chat_with_me/core/shared/user_model.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 
 import '../../../../../core/theming/my_colors.dart';
 
 class MessageSender extends StatelessWidget {
-  const MessageSender({super.key});
+  final UserModel friendModel;
+  const MessageSender({super.key, required this.friendModel});
 
   @override
   Widget build(BuildContext context) {
@@ -32,32 +35,30 @@ class MessageSender extends StatelessWidget {
             ),
           ),
         ),
-        buildSenderIconButton(),
+        buildSenderIconButton(context),
         const SizedBox()
       ],
     );
   }
-  Widget buildSenderIconButton() {
+  Widget buildSenderIconButton(BuildContext context) {
 
       return Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
-          onTap: () {
-           /* if (locator<ListenToMessagesCubit>().messageController.text.isNotEmpty) {
-              ChatCubit.getCubit(context).sendAMessage(
-                  recieverId: widget.friendModel.userId,
-                  message: messageController.text.trim());
-              context.read<AddReceiverChatDataCubit>().updateUnreadMessagesCountOfReceiver(receiverId: widget.friendModel.userId, isOpened: false);
-            }
-            setState(() {
-              messageController.clear();
-            });
+          onTap: ()async {
+
+             await context.read<ListenToMessagesCubit>().sendMessage(
+                  recieverId: friendModel.userId,);
+             // context.read<AddReceiverChatDataCubit>().updateUnreadMessagesCountOfReceiver(receiverId: widget.friendModel.userId, isOpened: false);
+
+              context.read<ListenToMessagesCubit>(). messageController.clear();
+
             if(ListenToMessagesCubit.getCubit(context).messages.isNotEmpty){
-              _scrollController.animateTo(0,
+              locator<ListenToMessagesCubit>().scrollController.animateTo(0,
                   duration: const Duration(milliseconds: 400),
                   curve: Curves.bounceOut);
-            }*/
+            }
             },
           child: const CircleAvatar(
             radius: 23,

@@ -9,20 +9,20 @@ import 'package:new_chat_with_me/core/shared/user_model.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/shared/chat_model.dart';
 import '../../../../../core/shared/shared_repo.dart';
-import 'chatting_state.dart';
+import 'listen_to_all_chats_state.dart';
 
-class ChattingCubit extends Cubit<ChattingState> {
+class ListenToAllChatsCubit extends Cubit<ListenToAllChatsState> {
   final SharedRepository sharedRepository;
-  ChattingCubit(this.sharedRepository) : super(ChattingInitial());
+  ListenToAllChatsCubit(this.sharedRepository) : super(ListenToAllChatsInitial());
 
   signOut() async {
     await locator<FirebaseAuth>().signOut();
   }
 
-  listenToAllChats() async {
 
-    emit(ChattingLoading());
-    log('listenToAllChats');
+  listenToAllChats() async {
+    emit(ListenToAllChatsLoading());
+    log('listenToAllChats:${sharedRepository.userModel.userId}');
     UserModel userModel = sharedRepository.userModel;
 
     try {
@@ -33,7 +33,7 @@ class ChattingCubit extends Cubit<ChattingState> {
       // Check if the user document exists
       var userDocSnapshot = await userDocRef.get();
       if (!userDocSnapshot.exists) {
-        emit(ChattingNoChats());
+        emit(ListenToAllChatsNoChats());
         return; // Exit early if the user document does not exist
       }
 
@@ -42,7 +42,7 @@ class ChattingCubit extends Cubit<ChattingState> {
       // Check if the chat collection has any documents
       var initialSnapshot = await chatCollectionRef.limit(1).get();
       if (initialSnapshot.docs.isEmpty) {
-        emit(ChattingNoChats());
+        emit(ListenToAllChatsNoChats());
         return; // Exit early if no chats are found
       }
 
@@ -55,23 +55,23 @@ class ChattingCubit extends Cubit<ChattingState> {
               .toList();
 
           if (sharedRepository.userChats.isEmpty) {
-            emit(ChattingNoChats());
+            emit(ListenToAllChatsNoChats());
           } else {
             sharedRepository.userChats.removeWhere((element) =>
             element.phoneNumber == sharedRepository.userModel.phoneNumber);
-            emit(ChattingSuccess(sharedRepository.userChats));
+            emit(ListenToAllChatsSuccess(sharedRepository.userChats));
             log(sharedRepository.userChats.first.name.toString());
           }
         },
         onError: (e) {
           log('getAllChats stream error: $e');
-          emit(ChattingNoChats());
+          emit(ListenToAllChatsNoChats());
           // emit(ChatGetUserChatsFailureState(e.toString()));
         },
       );
     } catch (e) {
       log('getAllChats initialization error: $e');
-      emit(ChattingNoChats());
+      emit(ListenToAllChatsNoChats());
       // emit(ChatGetUserChatsFailureState(e.toString()));
     }
   }

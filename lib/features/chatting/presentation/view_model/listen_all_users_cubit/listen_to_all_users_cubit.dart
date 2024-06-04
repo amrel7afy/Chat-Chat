@@ -17,9 +17,6 @@ class ListenToAllUsersCubit extends Cubit<ListenToAllUsersState> {
 
   listenToAllUsers() async {
     emit(ListenToAllUsersLoading());
-    log('listenToAllChats');
-    UserModel userModel = sharedRepository.userModel;
-
     try {
       var chatStream =
           locator<FirebaseFirestore>().collection(kUserCollection).snapshots();

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/core/shared/user_model.dart';
-import 'package:new_chat_with_me/features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_all_users_cubit/listen_to_all_users_cubit.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import 'package:new_chat_with_me/features/contacts/presentation/view/contacts_view.dart';
@@ -13,6 +12,7 @@ import 'package:new_chat_with_me/features/login/presentation/view_model/login_cu
 import 'package:new_chat_with_me/features/login/presentation/view_model/otp_cubit/otp_cubit.dart';
 import '../features/chatting/presentation/view/all_chats_view.dart';
 import '../features/chatting/presentation/view/messaging_view.dart';
+import '../features/chatting/presentation/view_model/listen_to_all_chats_cubit/listen_to_all_chats_cubit.dart';
 import '../features/information/presentation/view/information_view.dart';
 import '../features/login/presentation/view/login_view.dart';
 import '../features/login/presentation/view/otp_view.dart';
@@ -51,7 +51,7 @@ class AppRouter {
             builder: (context) => MultiBlocProvider(providers: [
                   BlocProvider(
                       create: (context) =>
-                          locator<ChattingCubit>()..listenToAllChats()),
+                          locator<ListenToAllChatsCubit>()..listenToAllChats()),
               BlocProvider(
                       create: (context) =>
                           locator<ListenToAllUsersCubit>()..listenToAllUsers(),lazy: false,),

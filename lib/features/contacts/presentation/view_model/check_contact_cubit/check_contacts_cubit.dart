@@ -40,15 +40,16 @@ class CheckContactsCubit extends Cubit<CheckContactsState> {
   getMatchedUsersWithContacts(BuildContext context) {
     Set contactPhoneNumbers = contacts
         .expand((contact) => contact.phones ?? [])
-        .map((phone) => _cleanPhoneNumber(phone.value) ?? '')
+        .map((phone) => _cleanPhoneNumber(phone.value))
         .toSet();
 
-    //log('contactPhoneNumbers: ${contactPhoneNumbers.length.toString()}');
+    log('contactPhoneNumbers: ${contactPhoneNumbers.length.toString()}');
     if (contactPhoneNumbers.isNotEmpty) {
+      log('sharedRepository.users.length: ${sharedRepository.users.length}');
       matchedUsersWithContacts = sharedRepository.users
           .where((user) => contactPhoneNumbers.contains(user.phoneNumber))
           .toList();
-      //log('matchedUsersWithContacts: ${matchedUsersWithContacts.length.toString()}');
+      log('matchedUsersWithContacts: ${matchedUsersWithContacts.length.toString()}');
       removeCurrentUserFromList();
       if (matchedUsersWithContacts.isEmpty) {
         emit(CheckNoMatchedContactsState(
@@ -74,9 +75,9 @@ class CheckContactsCubit extends Cubit<CheckContactsState> {
 
   String _cleanPhoneNumber(String phoneNumber) {
     // Remove spaces and dashes from phone number
-    log('before: $phoneNumber');
+    //log('before: $phoneNumber');
     String cleanedPhoneNumber = phoneNumber.replaceAll(RegExp(r'[ -]'), '');
-    log('after: $cleanedPhoneNumber');
+    //log('after: $cleanedPhoneNumber');
     return cleanedPhoneNumber;
   }
 }
