@@ -2,7 +2,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
-import 'package:new_chat_with_me/features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
+import 'package:new_chat_with_me/core/shared/user_model.dart';
+import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_all_users_cubit/listen_to_all_users_cubit.dart';
+import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import 'package:new_chat_with_me/features/contacts/presentation/view/contacts_view.dart';
 import 'package:new_chat_with_me/features/contacts/presentation/view_model/check_contact_cubit/check_contacts_cubit.dart';
 import 'package:new_chat_with_me/features/information/presentation/view_model/information_cubit.dart';
@@ -10,6 +12,7 @@ import 'package:new_chat_with_me/features/login/presentation/view_model/login_cu
 import 'package:new_chat_with_me/features/login/presentation/view_model/otp_cubit/otp_cubit.dart';
 import '../features/chatting/presentation/view/all_chats_view.dart';
 import '../features/chatting/presentation/view/messaging_view.dart';
+import '../features/chatting/presentation/view_model/listen_to_all_chats_cubit/listen_to_all_chats_cubit.dart';
 import '../features/information/presentation/view/information_view.dart';
 import '../features/login/presentation/view/login_view.dart';
 import '../features/login/presentation/view/otp_view.dart';
@@ -45,9 +48,14 @@ class AppRouter {
     switch (settings.name) {
       case homeView:
         return MaterialPageRoute(
-            builder: (context) => BlocProvider(
-                create: (context) => locator<ChattingCubit>()..listenToAllChats(),lazy: false,
-                child: const AllChatsView()));
+            builder: (context) => MultiBlocProvider(providers: [
+                  BlocProvider(
+                      create: (context) =>
+                          locator<ListenToAllChatsCubit>()..listenToAllChats()),
+              BlocProvider(
+                      create: (context) =>
+                          locator<ListenToAllUsersCubit>()..listenToAllUsers(),lazy: false,),
+                ], child: const AllChatsView()));
 
       case otpView:
         log('otpView');
@@ -59,7 +67,11 @@ class AppRouter {
                 ));
       case messagingView:
         log('messagingView');
-        return MaterialPageRoute(builder: (context) => const MessagingView());
+        final friendModel = settings.arguments as UserModel;
+        return MaterialPageRoute(builder: (context) =>  BlocProvider(
+          create: (context) => locator<ListenToMessagesCubit>(),
+  child: MessagingView(friendModel:friendModel),
+));
       case informationView:
         log('informationView');
         return MaterialPageRoute(

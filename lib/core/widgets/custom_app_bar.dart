@@ -4,7 +4,8 @@ import 'package:new_chat_with_me/core/theming/styles.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String text;
-  const CustomAppBar({super.key, required this.text});
+  final List<Widget>?actions;
+  const CustomAppBar({super.key, required this.text,  this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: MyTextStyles.font23Weight700.copyWith(color: MyColors.kPrimaryColor),
       ),
       automaticallyImplyLeading: false,
+      actions:actions?? [],
     );
   }
 

@@ -36,7 +36,7 @@ class _ContactsViewBodyState extends State<ContactsViewBody> {
   Widget build(BuildContext context) {
     return
            Padding(
-            padding: EdgeInsets.symmetric(horizontal: kLeftHomeViewPadding, ),
+            padding: const EdgeInsets.symmetric(horizontal: kLeftHomeViewPadding,),
             child: BlocBuilder<CheckContactsCubit, CheckContactsState>(
               builder: (BuildContext context, state) {
                 if (state is CheckNoContactsState) {

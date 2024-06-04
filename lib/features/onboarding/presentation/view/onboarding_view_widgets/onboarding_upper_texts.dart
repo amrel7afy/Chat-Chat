@@ -12,7 +12,7 @@ class OnBoardingUpperTexts extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RichText(
-          textAlign: TextAlign.start,
+          textAlign: TextAlign.center,
           text: TextSpan(
             children: [
               TextSpan(

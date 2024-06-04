@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/AppRouter.dart';
 import 'package:new_chat_with_me/core/helper/extensions.dart';
 import 'package:new_chat_with_me/core/theming/my_colors.dart';
-import 'package:new_chat_with_me/features/chatting/presentation/view_model/chatting_cubit/chatting_cubit.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/helper/cache_helper.dart';
 import '../../../../../core/theming/styles.dart';
+import '../../view_model/listen_to_all_chats_cubit/listen_to_all_chats_cubit.dart';
 
 class PopUpMenu extends StatelessWidget {
   const PopUpMenu({
@@ -21,7 +21,7 @@ class PopUpMenu extends StatelessWidget {
         if (result == 'Profile') {
           context.pushNamed( AppRouter.profileView);
         } else {
-          await context.read<ChattingCubit>().signOut().then((value) {
+          await context.read<ListenToAllChatsCubit>().signOut().then((value) {
             Navigator.pushNamedAndRemoveUntil(
                 context, AppRouter.loginView, (route) => false);
             CacheHelper.removeData(key: userModelKey);

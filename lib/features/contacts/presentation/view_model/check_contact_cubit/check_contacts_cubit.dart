@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:contacts_service/contacts_service.dart';
@@ -13,6 +12,7 @@ import 'check_contacts_state.dart';
 
 class CheckContactsCubit extends Cubit<CheckContactsState> {
   final SharedRepository sharedRepository;
+
   CheckContactsCubit(this.sharedRepository) : super(CheckContactsInitial());
   List<Contact> contacts = [];
   List<UserModel> matchedUsersWithContacts = [];
@@ -27,9 +27,10 @@ class CheckContactsCubit extends Cubit<CheckContactsState> {
         List<Contact> data = await ContactsService.getContacts();
         log("List<Contact> => ${data.map((e) => e.phones?.first.value ?? '')}");
         contacts.addAll(data);
-      } catch (e,s) {
+      } catch (e, s) {
         log("Error get contacts $e ,,, $s");
-        emit(CheckNoContactsState(removeSubString(e.toString(), 'Exception: ')));
+        emit(
+            CheckNoContactsState(removeSubString(e.toString(), 'Exception: ')));
       }
     } else {
       return [];
@@ -39,23 +40,23 @@ class CheckContactsCubit extends Cubit<CheckContactsState> {
   getMatchedUsersWithContacts(BuildContext context) {
     Set contactPhoneNumbers = contacts
         .expand((contact) => contact.phones ?? [])
-        .map((phone) => _cleanPhoneNumber(phone.value) ?? '')
+        .map((phone) => _cleanPhoneNumber(phone.value))
         .toSet();
-    //log('matchedUsersWithContacts: ${matchedUsersWithContacts.length.toString()}');
-    log('contactPhoneNumbers: ${contactPhoneNumbers.length.toString()}');
 
+    log('contactPhoneNumbers: ${contactPhoneNumbers.length.toString()}');
     if (contactPhoneNumbers.isNotEmpty) {
-      matchedUsersWithContacts = sharedRepository
-          .users
+      log('sharedRepository.users.length: ${sharedRepository.users.length}');
+      matchedUsersWithContacts = sharedRepository.users
           .where((user) => contactPhoneNumbers.contains(user.phoneNumber))
           .toList();
       log('matchedUsersWithContacts: ${matchedUsersWithContacts.length.toString()}');
       removeCurrentUserFromList();
       if (matchedUsersWithContacts.isEmpty) {
-        emit(CheckNoMatchedContactsState( 
+        emit(CheckNoMatchedContactsState(
             'Hmm 😐, you can invite your contacts to our app! '));
       } else {
-        matchedUsersWithContacts.removeWhere((element) => element.phoneNumber==sharedRepository.userModel.phoneNumber);
+        matchedUsersWithContacts.removeWhere((element) =>
+            element.phoneNumber == sharedRepository.userModel.phoneNumber);
         emit(CheckGetContactsSuccessState(matchedUsersWithContacts));
       }
     } else {
@@ -64,9 +65,9 @@ class CheckContactsCubit extends Cubit<CheckContactsState> {
   }
 
   void removeCurrentUserFromList() {
-    List<UserModel>filteredList=List.from(matchedUsersWithContacts);
+    List<UserModel> filteredList = List.from(matchedUsersWithContacts);
     for (var user in filteredList) {
-      if(user.phoneNumber==sharedRepository.userModel.phoneNumber){
+      if (user.phoneNumber == sharedRepository.userModel.phoneNumber) {
         matchedUsersWithContacts.remove(user);
       }
     }
@@ -74,6 +75,9 @@ class CheckContactsCubit extends Cubit<CheckContactsState> {
 
   String _cleanPhoneNumber(String phoneNumber) {
     // Remove spaces and dashes from phone number
-    return phoneNumber.replaceAll(RegExp(r'[ -]'), '');
+    //log('before: $phoneNumber');
+    String cleanedPhoneNumber = phoneNumber.replaceAll(RegExp(r'[ -]'), '');
+    //log('after: $cleanedPhoneNumber');
+    return cleanedPhoneNumber;
   }
 }
