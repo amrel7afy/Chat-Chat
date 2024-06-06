@@ -30,7 +30,7 @@ class InformationViewBody extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SelectImageAvatarStack(),
+                    const SelectImageAvatarStack(),
                     const VerticalSpacer(20),
                     const InformationForm(),
                     const VerticalSpacer(20),

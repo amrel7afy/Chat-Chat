@@ -23,7 +23,7 @@ class ChatWithMeApp extends StatelessWidget {
             color: MyColors.kGifBackGroundColor,
           ),
           iconButtonTheme: IconButtonThemeData(style: ButtonStyle(
-        iconColor: MaterialStateProperty.all<Color>(
+        iconColor: WidgetStateProperty.all<Color>(
           MyColors.kPrimaryColor,
         ),
       )),
