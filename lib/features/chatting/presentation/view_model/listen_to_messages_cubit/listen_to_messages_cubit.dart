@@ -27,7 +27,6 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
 
   listenToMessages({required String receiverId}) async {
     emit(ListenToMessagesLoadingState());
-
     try {
       _subscription = locator<FirebaseFirestore>()
           .collection(kUserCollection)
