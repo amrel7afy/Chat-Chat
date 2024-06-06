@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/core/shared/user_model.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import '../../../../../core/theming/my_colors.dart';

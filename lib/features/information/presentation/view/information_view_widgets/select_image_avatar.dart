@@ -5,7 +5,7 @@ import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 import '../../../../../core/theming/my_colors.dart';
 
 class SelectImageAvatar extends StatefulWidget {
-   SelectImageAvatar({
+   const SelectImageAvatar({
     super.key,
   });
 

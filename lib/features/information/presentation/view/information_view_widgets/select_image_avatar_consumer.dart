@@ -8,14 +8,14 @@ import '../../view_model/information_cubit.dart';
 
 class SelectImageAvatarStack extends StatelessWidget {
 
-   SelectImageAvatarStack({super.key, });
+   const SelectImageAvatarStack({super.key, });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: AlignmentDirectional.bottomEnd,
       children: [
-        SelectImageAvatar(),
+        const SelectImageAvatar(),
         IconButton(
           onPressed: () {
             context.read<InformationCubit>().pickImage();
