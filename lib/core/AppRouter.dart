@@ -51,7 +51,7 @@ class AppRouter {
             builder: (context) => MultiBlocProvider(providers: [
                   BlocProvider(
                       create: (context) =>
-                          locator<ListenToAllChatsCubit>()..listenToAllChats()),
+                          locator<ListenToAllChatsCubit>()..listenToAllChats(),lazy: false),
               BlocProvider(
                       create: (context) =>
                           locator<ListenToAllUsersCubit>()..listenToAllUsers(),lazy: false,),

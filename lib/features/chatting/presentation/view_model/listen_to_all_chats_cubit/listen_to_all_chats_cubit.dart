@@ -26,29 +26,12 @@ class ListenToAllChatsCubit extends Cubit<ListenToAllChatsState> {
     UserModel userModel = sharedRepository.userModel;
 
     try {
-      var userDocRef = locator<FirebaseFirestore>()
+      locator<FirebaseFirestore>()
           .collection(kUserCollection)
-          .doc(userModel.userId);
-
-      // Check if the user document exists
-      var userDocSnapshot = await userDocRef.get();
-      if (!userDocSnapshot.exists) {
-        emit(ListenToAllChatsNoChats());
-        return; // Exit early if the user document does not exist
-      }
-
-      var chatCollectionRef = userDocRef.collection(kChatsCollection);
-
-      // Check if the chat collection has any documents
-      var initialSnapshot = await chatCollectionRef.limit(1).get();
-      if (initialSnapshot.docs.isEmpty) {
-        emit(ListenToAllChatsNoChats());
-        return; // Exit early if no chats are found
-      }
-
-      var chatStream = chatCollectionRef.snapshots();
-
-      chatStream.listen(
+          .doc(userModel.userId)
+          .collection(kChatsCollection)
+          .snapshots()
+          .listen(
             (querySnapshot) {
           sharedRepository.userChats = querySnapshot.docs
               .map((chatDoc) => ChatModel.fromJson(chatDoc.data()))

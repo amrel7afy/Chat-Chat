@@ -3,26 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_state.dart';
 import 'chat_bubbles.dart';
-import 'messaging_view_body.dart';
-
 
 class SuccessBody extends StatelessWidget {
   final ListenToMessagesSuccessState state;
+  final String userId;
+
   const SuccessBody({
     super.key,
-    required this.widget, required this.state
+    required this.state,
+    required this.userId,
   });
-
-  final MessagingViewBody widget;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      controller: context.read<ListenToMessagesCubit>().scrollController, // You need to provide your controller here
+      controller: context.read<ListenToMessagesCubit>().scrollController,
       reverse: true,
       itemBuilder: (context, index) {
         final message = state.messages[index];
-        final isMyMessage = message.id == widget.friendModel.userId;
+        final isMyMessage = message.id == userId;
         return isMyMessage
             ? MyChatBubble(messageModel: message)
             : OtherChatBubble(messageModel: message);

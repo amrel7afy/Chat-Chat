@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,12 +14,12 @@ import 'listen_to_messages_state.dart';
 
 class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
   final SharedRepository sharedRepository;
-
+  late StreamSubscription _subscription;
+  GlobalKey<FormState> formKey=GlobalKey<FormState>();
   ListenToMessagesCubit(this.sharedRepository)
       : super(ListenToMessagesInitial());
 
-  static ListenToMessagesCubit getCubit(BuildContext context) =>
-      BlocProvider.of(context);
+
   List<MessageModel> messages = [];
   String lastMessageDateTime = '';
   final scrollController = ScrollController();
@@ -28,7 +29,7 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
     emit(ListenToMessagesLoadingState());
 
     try {
-      locator<FirebaseFirestore>()
+      _subscription = locator<FirebaseFirestore>()
           .collection(kUserCollection)
           .doc(sharedRepository.userModel.userId)
           .collection(kChatsCollection)
@@ -42,8 +43,11 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
             .toList();
         getTheTimeOfLastMessage();
 
-        emit(ListenToMessagesSuccessState(messages));
-        if (messages.isEmpty) {
+        if (!isClosed) {
+          emit(ListenToMessagesSuccessState(messages));
+        }
+
+        if (messages.isEmpty && !isClosed) {
           emit(NoListenMessagesState());
         }
       });
@@ -51,7 +55,9 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
       return messages;
     } catch (e) {
       log('getAndListenToMessages: $e');
-      emit(ListenToMessagesFailureState(e.toString()));
+      if (!isClosed) {
+        emit(ListenToMessagesFailureState(e.toString()));
+      }
     }
   }
 
@@ -70,11 +76,12 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
   sendMessage ({
     required String recieverId,
   }) async {
+    log(messageController.text.trim());
     MessageModel messageModel = MessageModel(
         message: messageController.text.trim(),
         id: recieverId,
         dateTime: DateTime.now().toString());
-    log('sharedRepository.userModel.userId${sharedRepository.userModel.userId}');
+    //log('sharedRepository.userModel.userId${sharedRepository.userModel.userId}');
     //put message in my chat messages collection and my friend messages collection.
     CollectionReference userMessagesReference = locator<FirebaseFirestore>()
         .collection(kUserCollection)
@@ -96,7 +103,15 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
       // emit(ChatSendMessageSuccessState());
     }).catchError((e) {
       log('sendMessage: $e');
-      emit(SendMessageFailureState(e.toString()));
+      if (!isClosed) {
+        emit(SendMessageFailureState(e.toString()));
+      }
     });
+  }
+
+  @override
+  Future<void> close() {
+    _subscription.cancel();
+    return super.close();
   }
 }
