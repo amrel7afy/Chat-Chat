@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/theming/my_colors.dart';
@@ -14,6 +15,8 @@ class LastMessageTimeAndUnreadCount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    //log(context.read<ListenToMessagesCubit>().lastMessageDateTime);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.center,

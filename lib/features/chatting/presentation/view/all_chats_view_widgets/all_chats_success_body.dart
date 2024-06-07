@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 import 'package:new_chat_with_me/core/shared/user_model.dart';
 
+import '../../../../../core/AppRouter.dart';
+import '../../../../../core/di/locator.dart';
 import 'chat_item_builder.dart';
 
 class ChatSuccessBody extends StatelessWidget {
@@ -19,9 +22,9 @@ class ChatSuccessBody extends StatelessWidget {
             //TODO
               onTap: () {
 
-              /*       Navigator.pushNamed(context, AppRouter.messagingView,
-              arguments: context.read<ChatCubit>().users[index]
-          );*/
+                   Navigator.pushNamed(context, AppRouter.messagingView,
+              arguments: locator<SharedRepository>().userChats[index]
+          );
 
               },
               child:

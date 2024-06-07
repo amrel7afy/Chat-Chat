@@ -4,7 +4,6 @@ import 'package:new_chat_with_me/core/shared/user_model.dart';
 import 'package:new_chat_with_me/core/theming/my_colors.dart';
 
 import '../../../../../core/theming/styles.dart';
-import '../../../../contacts/presentation/view/contacts_view_widgets/no_profile_image_avatar.dart';
 import '../../view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import '../../view_model/listen_to_messages_cubit/listen_to_messages_state.dart';
 import '../../view_model/unread_messages_count/unread_messages_count_cubit.dart';
@@ -20,8 +19,6 @@ class ChatItemBuilder extends StatefulWidget {
 }
 
 class _ChatItemBuilderState extends State<ChatItemBuilder> {
-  final String defaultProfileNetworkImage =
-      'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.nicepng.com%2Fpng%2Fdetail%2F933-9332131_profile-picture-default-png.png&tbnid=bLv2FccUvqriEM&vet=10CAYQxiAoB2oXChMI-OCPhr3cgwMVAAAAAB0AAAAAEAc..i&imgrefurl=https%3A%2F%2Fwww.nicepng.com%2Fourpic%2Fu2y3a9e6t4o0a9w7_profile-picture-default-png%2F&docid=-E5pvHnffveX2M&w=820&h=719&itg=1&q=profile%20image%20png&ved=0CAYQxiAoB2oXChMI-OCPhr3cgwMVAAAAAB0AAAAAEAc';
 
 
   @override
@@ -41,9 +38,7 @@ class _ChatItemBuilderState extends State<ChatItemBuilder> {
         if (state is ListenToMessagesSuccessState) {}
         return ListTile(
           title: nameAndLastMessage(state),
-          leading: widget.chatModel.profilePic.isEmpty
-              ? const NoChatProfileImageAvatar()
-              : CircleAvatar(
+          leading:CircleAvatar(
                   radius: 25,
                   backgroundColor: MyColors.kPrimaryColor,
                   backgroundImage: NetworkImage(widget.chatModel.profilePic)),

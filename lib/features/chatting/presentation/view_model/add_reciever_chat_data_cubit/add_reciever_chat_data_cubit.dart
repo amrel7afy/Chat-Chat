@@ -22,7 +22,7 @@ class AddReceiverChatDataCubit extends Cubit<AddReceiverChatDataState> {
 
    addReceiverChatData(UserModel receiverUserModel, ) async {
     UserModel chatModel=receiverUserModel;
-    UserModel myUserModel=sharedRepository.userModel;
+    //UserModel myUserModel=sharedRepository.userModel;
  try{
    await fireStore
        .collection(kUserCollection)
