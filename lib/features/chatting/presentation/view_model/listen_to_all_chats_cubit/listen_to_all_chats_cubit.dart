@@ -7,7 +7,6 @@ import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/core/shared/user_model.dart';
 
 import '../../../../../core/constants/constants.dart';
-import '../../../../../core/shared/chat_model.dart';
 import '../../../../../core/shared/shared_repo.dart';
 import 'listen_to_all_chats_state.dart';
 
@@ -34,7 +33,7 @@ class ListenToAllChatsCubit extends Cubit<ListenToAllChatsState> {
           .listen(
             (querySnapshot) {
           sharedRepository.userChats = querySnapshot.docs
-              .map((chatDoc) => ChatModel.fromJson(chatDoc.data()))
+              .map((chatDoc) => UserModel.fromJson(chatDoc.data()))
               .toList();
 
           if (sharedRepository.userChats.isEmpty) {

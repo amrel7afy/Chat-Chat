@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:new_chat_with_me/core/shared/chat_model.dart';
+import 'package:new_chat_with_me/core/shared/user_model.dart';
 
 import 'chat_item_builder.dart';
 
 class ChatSuccessBody extends StatelessWidget {
-  final List<ChatModel> chats;
+  final List<UserModel> chats;
 
   const ChatSuccessBody({
     super.key, required this.chats,

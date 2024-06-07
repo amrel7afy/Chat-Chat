@@ -6,17 +6,18 @@ class UserModel {
   late String phoneNumber;
   late String bio;
   late String profilePic;
+  late int unreadMessagesCount = 0;
 
 
-  UserModel(
-      {required this.email,
-      required this.userId,
-      required this.name,
-      required this.bio,
-      required this.phoneNumber,
-      required this.profilePic,
+  UserModel({required this.email,
+    required this.userId,
+    required this.name,
+    required this.bio,
+    required this.phoneNumber,
+    required this.profilePic,
+    required this.unreadMessagesCount,
 
-      });
+  });
 
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -55,6 +56,12 @@ class UserModel {
           'Invalid JSON: required "profilePic" field of type String in $json');
     }
 
+    final unreadMessagesCount = json['unreadMessagesCount'];
+    if (unreadMessagesCount is! int) {
+      throw FormatException(
+          'Invalid JSON: required "unreadMessagesCount" field of type int in $json');
+    }
+
     return UserModel(
       name: name,
       userId: userId,
@@ -62,6 +69,7 @@ class UserModel {
       phoneNumber: phoneNumber,
       bio: bio,
       profilePic: profilePic,
+      unreadMessagesCount: unreadMessagesCount,
 
     );
   }
@@ -74,16 +82,8 @@ class UserModel {
       'phoneNumber': phoneNumber,
       'bio': bio,
       'profilePic': profilePic,
+      'unreadMessagesCount': unreadMessagesCount,
     };
-  }
-  factory UserModel.init() {
-    return UserModel(
-        email: '',
-        userId: '',
-        name: '',
-        bio: '',
-        phoneNumber: '',
-        profilePic: '',);
   }
 }
 /*class UserService {

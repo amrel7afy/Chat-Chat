@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_chat_with_me/core/shared/user_model.dart';
 import 'package:new_chat_with_me/core/theming/my_colors.dart';
 
-import '../../../../../core/shared/chat_model.dart';
 import '../../../../../core/theming/styles.dart';
 import '../../../../contacts/presentation/view/contacts_view_widgets/no_profile_image_avatar.dart';
 import '../../view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
@@ -11,7 +11,7 @@ import '../../view_model/unread_messages_count/unread_messages_count_cubit.dart'
 import 'last_message_time_and_unread_count.dart';
 
 class ChatItemBuilder extends StatefulWidget {
-  final ChatModel chatModel;
+  final UserModel chatModel;
 
   const ChatItemBuilder({super.key, required this.chatModel});
 

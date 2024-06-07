@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import '../../../../../core/shared/chat_model.dart';
+import 'package:new_chat_with_me/core/shared/user_model.dart';
+
 
 sealed class ListenToAllChatsState {}
 
@@ -11,7 +12,7 @@ final class ListenToAllChatsLoading extends ListenToAllChatsState {}
 final class ListenToAllChatsNoChats extends ListenToAllChatsState {}
 
 final class ListenToAllChatsSuccess extends ListenToAllChatsState {
-  final List<ChatModel> chats;
+  final List<UserModel> chats;
 
   ListenToAllChatsSuccess(this.chats);
 }

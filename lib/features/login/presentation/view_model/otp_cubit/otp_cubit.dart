@@ -33,7 +33,10 @@ class OTPCubit extends Cubit<OTPState> {
             bio: '',
             phoneNumber: '',
             profilePic: '',
-            name: '');
+            name: '',
+            unreadMessagesCount:0
+
+        );
         bool isUserExists = await checkExistingUser();
         if (isUserExists) {
           getTheUserFromFireStoreWithVerifiedUserID();
@@ -78,7 +81,10 @@ class OTPCubit extends Cubit<OTPState> {
           name: documentSnapshot['name'],
           bio: documentSnapshot['bio'],
           phoneNumber: documentSnapshot['phoneNumber'],
-          profilePic: documentSnapshot['profilePic']);
+          profilePic: documentSnapshot['profilePic'],
+        unreadMessagesCount: documentSnapshot['unreadMessagesCount'],
+
+      );
       log('getUserFromFireStore');
       await saveUserToSP(sharedRepository.userModel);
         await setIsSignedInKeyToTrue();

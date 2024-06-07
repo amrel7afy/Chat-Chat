@@ -24,7 +24,7 @@ class ListenToAllUsersCubit extends Cubit<ListenToAllUsersState> {
         (querySnapshot) {
           if (querySnapshot.docs.isNotEmpty) {
             for (var snapshot in querySnapshot.docs) {
-              deleteExistingUser(snapshot);
+              removeExistingUserFromList(snapshot);
             }
             emit(ListenToAllUserSuccess(sharedRepository.users));
           }
@@ -40,7 +40,7 @@ class ListenToAllUsersCubit extends Cubit<ListenToAllUsersState> {
     }
   }
 
-  void deleteExistingUser(QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
+  void removeExistingUserFromList(QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
      if(sharedRepository.userModel.userId!=snapshot.data()['uid']){
       sharedRepository.users.add(UserModel.fromJson(snapshot.data()));
     }
