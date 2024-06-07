@@ -9,7 +9,7 @@ import '../../view_model/unread_messages_count/unread_messages_count_cubit.dart'
 import '../../view_model/unread_messages_count/unread_messages_count_state.dart';
 
 class LastMessageTimeAndUnreadCount extends StatelessWidget {
-  const LastMessageTimeAndUnreadCount({
+   LastMessageTimeAndUnreadCount({
     super.key,
   });
 

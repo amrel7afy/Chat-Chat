@@ -25,7 +25,7 @@ class _ChatItemBuilderState extends State<ChatItemBuilder> {
   void initState() {
 
     context.read<ListenToMessagesCubit>().listenToMessages(
-        receiverId: '+2${widget.chatModel.phoneNumber}');
+        receiverId: widget.chatModel.userId);
     context.read<UnreadMessagesCountCubit>().listenToUnreadMessagesCount(receiverId: '+2${widget.chatModel.phoneNumber}');
 
     super.initState();
@@ -42,7 +42,7 @@ class _ChatItemBuilderState extends State<ChatItemBuilder> {
                   radius: 25,
                   backgroundColor: MyColors.kPrimaryColor,
                   backgroundImage: NetworkImage(widget.chatModel.profilePic)),
-          trailing: const LastMessageTimeAndUnreadCount(),
+          trailing:  LastMessageTimeAndUnreadCount(),
         );
       },
     );
