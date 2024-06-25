@@ -21,7 +21,7 @@ class AddReceiverChatDataCubit extends Cubit<AddReceiverChatDataState> {
 
    addReceiverChatData(UserModel receiverUserModel, ) async {
     UserModel userModel=receiverUserModel;
-    //UserModel myUserModel=sharedRepository.userModel;
+    UserModel myUserModel=sharedRepository.userModel;
  try{
    await fireStore
        .collection(kUserCollection)
@@ -29,8 +29,7 @@ class AddReceiverChatDataCubit extends Cubit<AddReceiverChatDataState> {
        .collection(kChatsCollection)
        .doc(receiverUserModel.userId)
        .set(userModel.toJson());
-   emit(AddReceiverChatDataToFireBaseSuccess());
-   /*fireStore
+   fireStore
         .collection(kUserCollection)
         .doc(receiverUserModel.userId)
         .collection(kChatsCollection)
@@ -40,7 +39,7 @@ class AddReceiverChatDataCubit extends Cubit<AddReceiverChatDataState> {
             emit(AddReceiverChatDataToFireBaseSuccess());
       }).catchError((e){
         emit(ReceiverChatDataIsAddedToFireBaseFailure(e.toString()));
-      });*/
+      });
  }catch(e){  emit(ReceiverChatDataIsAddedToFireBaseFailure(e.toString()));}
 
 

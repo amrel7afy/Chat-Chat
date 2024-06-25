@@ -6,6 +6,7 @@ import 'package:new_chat_with_me/core/shared/user_model.dart';
 import '../../../../../core/AppRouter.dart';
 import '../../../../../core/di/locator.dart';
 import '../../view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
+import '../../view_model/unread_messages_count/unread_messages_count_cubit.dart';
 import 'chat_item_builder.dart';
 
 class ChatSuccessBody extends StatelessWidget {
@@ -29,8 +30,16 @@ class ChatSuccessBody extends StatelessWidget {
               },
               child:
               // Text(chats[index].phoneNumber)
-              BlocProvider(
-                create: (context) => locator<ListenToMessagesCubit>(),
+              MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => locator<ListenToMessagesCubit>(),
+                  ),
+                  BlocProvider(
+                      create: (context) =>
+                          locator<UnreadMessagesCountCubit>())
+
+                ],
                 child: ChatItemBuilder(chatModel: chats[index]),
               )
           ),

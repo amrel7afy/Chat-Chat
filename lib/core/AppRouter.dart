@@ -125,9 +125,7 @@ class AppRouter {
           create: (context) =>
               locator<ListenToAllUsersCubit>()..listenToAllUsers(),
           lazy: false),
-      BlocProvider(
-          create: (context) =>
-              UnreadMessagesCountCubit(locator<SharedRepository>())),
+
        ];
   }
 }
