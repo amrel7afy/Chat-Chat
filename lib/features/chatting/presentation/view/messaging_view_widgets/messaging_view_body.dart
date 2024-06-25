@@ -21,16 +21,24 @@ class MessagingViewBody extends StatefulWidget {
 }
 
 class _MessagingViewBodyState extends State<MessagingViewBody> {
+  bool isOpened=false;
   @override
   void initState() {
     super.initState();
     context.read<ListenToMessagesCubit>().listenToMessages(receiverId: widget.friendModel.userId);
     context.read<UnreadMessagesCountCubit>().resetUnreadMessagesToZero(receiverId: widget.friendModel.userId,);
+  isOpened=true;
   }
+setToZero(){
+    if(isOpened){
+      context.read<UnreadMessagesCountCubit>().resetUnreadMessagesToZero(receiverId: widget.friendModel.userId,);
 
+    }
+}
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Expanded(
@@ -50,7 +58,9 @@ class _MessagingViewBodyState extends State<MessagingViewBody> {
                 }
               },
               listener: (context, state) {
-
+                if(state is ListenToMessagesSuccessState){
+                  setToZero();
+                }
               },
             ),
           ),

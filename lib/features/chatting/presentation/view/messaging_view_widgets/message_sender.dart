@@ -12,8 +12,6 @@ class MessageSender extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(context.read<ListenToMessagesCubit>().messageController.text.trim());
-
     return Row(
       children: [
         Expanded(
