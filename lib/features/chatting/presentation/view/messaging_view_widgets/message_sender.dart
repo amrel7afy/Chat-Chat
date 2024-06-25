@@ -50,7 +50,7 @@ class MessageSender extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         onTap: ()  {
            context.read<ListenToMessagesCubit>().sendMessage(
-            recieverId: friendModel.userId,
+            receiverId: friendModel.userId,
           );
 
           if (context.read<ListenToMessagesCubit>().messages.isNotEmpty) {

@@ -42,7 +42,7 @@ class ListenToAllChatsCubit extends Cubit<ListenToAllChatsState> {
             sharedRepository.userChats.removeWhere((element) =>
             element.phoneNumber == sharedRepository.userModel.phoneNumber);
             emit(ListenToAllChatsSuccess(sharedRepository.userChats));
-            log(sharedRepository.userChats.first.name.toString());
+            //log(sharedRepository.userChats?.first.name.toString()??'');
           }
         },
         onError: (e) {

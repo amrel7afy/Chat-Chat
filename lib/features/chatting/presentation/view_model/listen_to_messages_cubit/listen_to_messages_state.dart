@@ -7,6 +7,7 @@ abstract class ListenToMessagesState {}
 class ListenToMessagesInitial extends ListenToMessagesState {}
 
 class ListenToMessagesLoadingState extends ListenToMessagesState {}
+class NoMessagesState extends ListenToMessagesState {}
 
 class ListenToMessagesSuccessState extends ListenToMessagesState {
   List<MessageModel> messages;

@@ -12,21 +12,27 @@ import '../../../../../core/shared/shared_repo.dart';
 import '../../../data/model/message_model.dart';
 import 'listen_to_messages_state.dart';
 
+
 class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
   final SharedRepository sharedRepository;
   late StreamSubscription _subscription;
-  GlobalKey<FormState> formKey=GlobalKey<FormState>();
-  ListenToMessagesCubit(this.sharedRepository)
-      : super(ListenToMessagesInitial());
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  //final AddReceiverChatDataCubit addReceiverChatDataCubit; // Add this field
 
+  ListenToMessagesCubit(this.sharedRepository,
+     // this.addReceiverChatDataCubit
+      )
+      : super(ListenToMessagesInitial());
 
   List<MessageModel> messages = [];
   String lastMessageDateTime = '';
   final scrollController = ScrollController();
   TextEditingController messageController = TextEditingController();
+  bool isReceiverDataAdded = false; // Track if receiver data is added
 
   listenToMessages({required String receiverId}) async {
     emit(ListenToMessagesLoadingState());
+
     try {
       _subscription = locator<FirebaseFirestore>()
           .collection(kUserCollection)
@@ -43,11 +49,11 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
         getTheTimeOfLastMessage();
 
         if (!isClosed) {
-          emit(ListenToMessagesSuccessState(messages));
-        }
-
-        if (messages.isEmpty && !isClosed) {
-          emit(NoListenMessagesState());
+          if (messages.isEmpty) {
+            emit(NoMessagesState());
+          } else {
+            emit(ListenToMessagesSuccessState(messages));
+          }
         }
       });
       log('returned messages: ${messages.length.toString()}');
@@ -63,7 +69,6 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
   void getTheTimeOfLastMessage() {
     if (messages.isNotEmpty) {
       DateTime dateTime = DateTime.parse(messages[0].dateTime);
-      // Formatting the DateTime to include AM/PM
       lastMessageDateTime =
           DateFormat('h:mm a').format(dateTime); // 'a' denotes AM/PM
       log(lastMessageDateTime);
@@ -72,34 +77,42 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
     }
   }
 
-  sendMessage ({
-    required String recieverId,
+  sendMessage({
+    required String receiverId,
   }) async {
     log(messageController.text.trim());
+    if (messageController.text.trim().isEmpty) return;
+
     MessageModel messageModel = MessageModel(
-        message: messageController.text.trim(),
-        id: recieverId,
-        dateTime: DateTime.now().toString());
-    //log('sharedRepository.userModel.userId${sharedRepository.userModel.userId}');
-    //put message in my chat messages collection and my friend messages collection.
+      message: messageController.text.trim(),
+      id: receiverId,
+      dateTime: DateTime.now().toString(),
+    );
+
     CollectionReference userMessagesReference = locator<FirebaseFirestore>()
         .collection(kUserCollection)
         .doc(sharedRepository.userModel.userId)
         .collection(kChatsCollection)
-        .doc(recieverId)
+        .doc(receiverId)
         .collection(kMessagesCollection);
 
     CollectionReference receiverMessagesReference = locator<FirebaseFirestore>()
         .collection(kUserCollection)
-        .doc(recieverId)
+        .doc(receiverId)
         .collection(kChatsCollection)
         .doc(sharedRepository.userModel.userId)
         .collection(kMessagesCollection);
 
-    await userMessagesReference.add(messageModel.toJson()).then((value) {
+    await userMessagesReference.add(messageModel.toJson()).then((value) async {
       receiverMessagesReference.add(messageModel.toJson());
       log('sendMessage: ${messageController.text.trim()}');
-      // emit(ChatSendMessageSuccessState());
+      messageController.clear();
+
+      // Add receiver data after sending the first message
+      if (!isReceiverDataAdded) {
+      //  await addReceiverChatDataCubit.addReceiverChatData(sharedRepository.userModel);
+        isReceiverDataAdded = true; // Mark as added
+      }
     }).catchError((e) {
       log('sendMessage: $e');
       if (!isClosed) {

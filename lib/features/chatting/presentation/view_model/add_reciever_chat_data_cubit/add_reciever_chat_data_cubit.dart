@@ -1,5 +1,4 @@
 
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +20,7 @@ class AddReceiverChatDataCubit extends Cubit<AddReceiverChatDataState> {
 
 
    addReceiverChatData(UserModel receiverUserModel, ) async {
-    UserModel chatModel=receiverUserModel;
+    UserModel userModel=receiverUserModel;
     //UserModel myUserModel=sharedRepository.userModel;
  try{
    await fireStore
@@ -29,8 +28,7 @@ class AddReceiverChatDataCubit extends Cubit<AddReceiverChatDataState> {
        .doc(sharedRepository.userModel.userId)
        .collection(kChatsCollection)
        .doc(receiverUserModel.userId)
-       .set(chatModel.toJson());
-
+       .set(userModel.toJson());
    emit(AddReceiverChatDataToFireBaseSuccess());
    /*fireStore
         .collection(kUserCollection)
@@ -48,25 +46,7 @@ class AddReceiverChatDataCubit extends Cubit<AddReceiverChatDataState> {
 
   }
 
-  updateUnreadMessagesCountOfReceiver({required String receiverId,required bool isOpened})async{
-    DocumentReference receiverDoc = locator<FirebaseFirestore>()
-        .collection(kUserCollection)
-        .doc(receiverId)
-        .collection(kChatsCollection)
-        .doc(sharedRepository.userModel.userId);
-    int count;
-     if(isOpened){
-       count=0;
-     }else{count=1;}
 
-    await receiverDoc.update({'unreadMessagesCount': FieldValue.increment(count)}).then((value) {
-      emit(UpdateUnreadMessagesCountSuccessState());
-    }).catchError((e){
-      log('updateUnreadMessagesCountOfReceiver: ${e.toString()}');
-      emit(UpdateUnreadMessagesCountFailureState(e.toString()));
-    });
-
-  }
 
 
 }

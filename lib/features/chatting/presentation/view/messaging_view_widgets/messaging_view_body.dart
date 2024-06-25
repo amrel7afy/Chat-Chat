@@ -7,6 +7,7 @@ import 'package:new_chat_with_me/features/chatting/presentation/view_model/liste
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_state.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/widgets/loading_indicator.dart';
+import '../../view_model/add_reciever_chat_data_cubit/add_reciever_chat_data_cubit.dart';
 import 'message_sender.dart';
 
 class MessagingViewBody extends StatefulWidget {
@@ -25,12 +26,6 @@ class _MessagingViewBodyState extends State<MessagingViewBody> {
     context.read<ListenToMessagesCubit>().listenToMessages(receiverId: widget.friendModel.userId);
   }
 
-/*  @override
-  void dispose() {
-    context.read<ListenToMessagesCubit>().close();
-    context.read<AddReceiverChatDataCubit>().close();
-    super.dispose();
-  }*/
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,12 +39,17 @@ class _MessagingViewBodyState extends State<MessagingViewBody> {
                   return const CustomLoadingIndicator();
                 } else if (state is ListenToMessagesSuccessState) {
                   return SuccessBody(state: state, userId: widget.friendModel.userId);
-                } else {
+                } else if (state is NoMessagesState) {
                   return const CustomErrorMessage(errorMessage: 'Send message now!');
+                } else {
+                  return const CustomErrorMessage(errorMessage: 'An error occurred!');
                 }
-              }, listener: (BuildContext context, ListenToMessagesState state) {
-                if(state is NoListenMessagesState){}
-            },
+              },
+              listener: (context, state) {
+                if (state is NoMessagesState) {
+                  context.read<AddReceiverChatDataCubit>().addReceiverChatData(widget.friendModel);
+                }
+              },
             ),
           ),
         ),
@@ -58,3 +58,4 @@ class _MessagingViewBodyState extends State<MessagingViewBody> {
     );
   }
 }
+
