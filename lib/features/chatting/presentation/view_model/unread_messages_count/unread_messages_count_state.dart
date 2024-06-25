@@ -15,3 +15,13 @@ class NotExistsUnreadMessagesState extends UnreadMessagesCountState {
 
   UnreadMessagesErrorState(this.error);
 }
+
+
+class UpdateUnreadMessagesCountSuccessState extends UnreadMessagesCountState {
+}class UpdateUnreadMessagesCountFailureState extends UnreadMessagesCountState {
+  final String error;
+
+  UpdateUnreadMessagesCountFailureState(this.error);
+}
+
+

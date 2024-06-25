@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:new_chat_with_me/core/shared/chat_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_chat_with_me/core/shared/shared_repo.dart';
+import 'package:new_chat_with_me/core/shared/user_model.dart';
 
+import '../../../../../core/AppRouter.dart';
+import '../../../../../core/di/locator.dart';
+import '../../view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import 'chat_item_builder.dart';
 
 class ChatSuccessBody extends StatelessWidget {
-  final List<ChatModel> chats;
+  final List<UserModel> chats;
 
   const ChatSuccessBody({
     super.key, required this.chats,
@@ -18,15 +23,16 @@ class ChatSuccessBody extends StatelessWidget {
           InkWell(
             //TODO
               onTap: () {
-
-              /*       Navigator.pushNamed(context, AppRouter.messagingView,
-              arguments: context.read<ChatCubit>().users[index]
-          );*/
-
+                Navigator.pushNamed(context, AppRouter.messagingView,
+                    arguments: locator<SharedRepository>().userChats[index]
+                );
               },
               child:
               // Text(chats[index].phoneNumber)
-              ChatItemBuilder(chatModel: chats[index])
+              BlocProvider(
+                create: (context) => locator<ListenToMessagesCubit>(),
+                child: ChatItemBuilder(chatModel: chats[index]),
+              )
           ),
     );
   }

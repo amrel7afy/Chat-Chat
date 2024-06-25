@@ -1,11 +1,9 @@
 
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/di/locator.dart';
-import '../../../../../core/shared/chat_model.dart';
 import '../../../../../core/shared/shared_repo.dart';
 import '../../../../../core/shared/user_model.dart';
 import 'add_reciever_chat_data_state.dart';
@@ -22,23 +20,22 @@ class AddReceiverChatDataCubit extends Cubit<AddReceiverChatDataState> {
 
 
    addReceiverChatData(UserModel receiverUserModel, ) async {
-    ChatModel chatModel=ChatModel.fromUserModel(receiverUserModel);
-    ChatModel myChatModel=ChatModel.fromUserModel(sharedRepository.userModel);
+    UserModel userModel=receiverUserModel;
+    //UserModel myUserModel=sharedRepository.userModel;
  try{
    await fireStore
        .collection(kUserCollection)
        .doc(sharedRepository.userModel.userId)
        .collection(kChatsCollection)
        .doc(receiverUserModel.userId)
-       .set(chatModel.toJson());
-
+       .set(userModel.toJson());
    emit(AddReceiverChatDataToFireBaseSuccess());
    /*fireStore
         .collection(kUserCollection)
         .doc(receiverUserModel.userId)
         .collection(kChatsCollection)
         .doc(sharedRepository.userModel.userId)
-        .set(myChatModel.toJson())
+        .set(myUserModel.toJson())
           .then((value) {
             emit(AddReceiverChatDataToFireBaseSuccess());
       }).catchError((e){
@@ -49,25 +46,7 @@ class AddReceiverChatDataCubit extends Cubit<AddReceiverChatDataState> {
 
   }
 
-  updateUnreadMessagesCountOfReceiver({required String receiverId,required bool isOpened})async{
-    DocumentReference receiverDoc = locator<FirebaseFirestore>()
-        .collection(kUserCollection)
-        .doc(receiverId)
-        .collection(kChatsCollection)
-        .doc(sharedRepository.userModel.userId);
-    int count;
-     if(isOpened){
-       count=0;
-     }else{count=1;}
 
-    await receiverDoc.update({'unreadMessagesCount': FieldValue.increment(count)}).then((value) {
-      emit(UpdateUnreadMessagesCountSuccessState());
-    }).catchError((e){
-      log('updateUnreadMessagesCountOfReceiver: ${e.toString()}');
-      emit(UpdateUnreadMessagesCountFailureState(e.toString()));
-    });
-
-  }
 
 
 }
