@@ -22,7 +22,6 @@ class ChatSuccessBody extends StatelessWidget {
       itemCount: chats.length,
       itemBuilder: (context, index) =>
           InkWell(
-            //TODO
               onTap: () {
                 Navigator.pushNamed(context, AppRouter.messagingView,
                     arguments: locator<SharedRepository>().userChats[index]
@@ -35,9 +34,7 @@ class ChatSuccessBody extends StatelessWidget {
                   BlocProvider(
                     create: (context) => locator<ListenToMessagesCubit>(),
                   ),
-                  BlocProvider(
-                      create: (context) =>
-                          locator<UnreadMessagesCountCubit>())
+
 
                 ],
                 child: ChatItemBuilder(chatModel: chats[index]),

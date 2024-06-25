@@ -33,7 +33,7 @@ class LastMessageTimeAndUnreadCount extends StatelessWidget {
         );
   },
 ),
-        const UnReadMessagesBloc(),
+         UnReadMessagesBloc(),
 
       ],
     );
@@ -52,7 +52,9 @@ class UnReadMessagesBloc extends StatelessWidget {
         if(state is ExistsUnreadMessagesState){
           return buildUnReadMessageAvatar(state);}
         else{
-          return const SizedBox.shrink();
+          return const SizedBox(
+            width: 1,height: 1,
+          );
         }
       },
     );

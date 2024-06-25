@@ -52,9 +52,9 @@ class UnreadMessagesCountCubit extends Cubit<UnreadMessagesCountState> {
         .doc(sharedRepository.userModel.userId);
     //int count=isOpened?0:1;
     int count=0;
-    if(!isOpened) {
-      count++;
-    }
+    if(!isOpened){
+    count++;
+}
     await receiverDoc.update({'unreadMessagesCount': FieldValue.increment(count)}).then((value) {
       emit(UpdateUnreadMessagesCountSuccessState());
     }).catchError((e){
@@ -62,5 +62,12 @@ class UnreadMessagesCountCubit extends Cubit<UnreadMessagesCountState> {
       emit(UpdateUnreadMessagesCountFailureState(e.toString()));
     });
 
+  }
+  resetUnreadMessagesToZero({required String receiverId,})async{
+await locator<FirebaseFirestore>()
+        .collection(kUserCollection)
+        .doc(sharedRepository.userModel.userId)
+        .collection(kChatsCollection)
+        .doc(receiverId).update({'unreadMessagesCount': 0});
   }
 }
