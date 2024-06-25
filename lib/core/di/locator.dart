@@ -28,7 +28,7 @@ void setupLocator() {
  locator.registerFactory<ListenToAllChatsCubit>(() => ListenToAllChatsCubit(locator<SharedRepository>()));
  locator.registerFactory<CheckContactsCubit>(() => CheckContactsCubit(locator<SharedRepository>()));
  locator.registerFactory<ListenToAllUsersCubit>(() => ListenToAllUsersCubit(locator<SharedRepository>()));
- locator.registerFactory<ListenToMessagesCubit>(() => ListenToMessagesCubit(locator<SharedRepository>(), ));
+ locator.registerFactory<ListenToMessagesCubit>(() => ListenToMessagesCubit(locator<SharedRepository>(), locator<UnreadMessagesCountCubit>()));
  locator.registerFactory<AddReceiverChatDataCubit>(() => AddReceiverChatDataCubit(locator<SharedRepository>()));
  locator.registerFactory<UnreadMessagesCountCubit>(() => UnreadMessagesCountCubit(locator<SharedRepository>()));
 

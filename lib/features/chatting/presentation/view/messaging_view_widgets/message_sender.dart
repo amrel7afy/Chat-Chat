@@ -53,11 +53,7 @@ class MessageSender extends StatelessWidget {
             receiverId: friendModel.userId,
           );
 
-          if (context.read<ListenToMessagesCubit>().messages.isNotEmpty) {
-            context.read<ListenToMessagesCubit>().scrollController.animateTo(0,
-                duration: const Duration(milliseconds: 400),
-                curve: Curves.bounceOut);
-          }
+          checkAndAnimate(context);
 
           // Clear the message controller after sending the message
           context.read<ListenToMessagesCubit>().messageController.clear();
@@ -71,5 +67,13 @@ class MessageSender extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void checkAndAnimate(BuildContext context) {
+    if (context.read<ListenToMessagesCubit>().messages.isNotEmpty) {
+      context.read<ListenToMessagesCubit>().scrollController.animateTo(0,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.bounceOut);
+    }
   }
 }

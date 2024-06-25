@@ -42,14 +42,19 @@ class UnreadMessagesCountCubit extends Cubit<UnreadMessagesCountState> {
     );
   }
 
-  updateUnreadMessagesCountOfReceiver({required String receiverId,required bool isOpened})async{
+  updateUnreadMessagesCountOfReceiver({required String receiverId,
+    required bool isOpened
+  })async{
     DocumentReference receiverDoc = locator<FirebaseFirestore>()
         .collection(kUserCollection)
         .doc(receiverId)
         .collection(kChatsCollection)
         .doc(sharedRepository.userModel.userId);
-    int count=isOpened?0:1;
-
+    //int count=isOpened?0:1;
+    int count=0;
+    if(!isOpened) {
+      count++;
+    }
     await receiverDoc.update({'unreadMessagesCount': FieldValue.increment(count)}).then((value) {
       emit(UpdateUnreadMessagesCountSuccessState());
     }).catchError((e){

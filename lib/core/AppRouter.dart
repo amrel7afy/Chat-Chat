@@ -103,7 +103,7 @@ class AppRouter {
     return [
       BlocProvider(
         create: (context) => ListenToMessagesCubit(
-          locator<SharedRepository>(),
+          locator<SharedRepository>(),locator<UnreadMessagesCountCubit>()
 
         ),  // Listen to messages for the specific friendModel
       ),
