@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:new_chat_with_me/features/chatting/presentation/view_model/unread_messages_count/unread_messages_count_cubit.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/di/locator.dart';
@@ -17,9 +18,10 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
   final SharedRepository sharedRepository;
   late StreamSubscription _subscription;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  //final AddReceiverChatDataCubit addReceiverChatDataCubit; // Add this field
 
-  ListenToMessagesCubit(this.sharedRepository,
+  final UnreadMessagesCountCubit unreadMessagesCountCubit; // Add this field
+
+  ListenToMessagesCubit(this.sharedRepository, this.unreadMessagesCountCubit,
      // this.addReceiverChatDataCubit
       )
       : super(ListenToMessagesInitial());
@@ -106,13 +108,11 @@ class ListenToMessagesCubit extends Cubit<ListenToMessagesState> {
     await userMessagesReference.add(messageModel.toJson()).then((value) async {
       receiverMessagesReference.add(messageModel.toJson());
       log('sendMessage: ${messageController.text.trim()}');
-      messageController.clear();
 
-      // Add receiver data after sending the first message
-      if (!isReceiverDataAdded) {
-      //  await addReceiverChatDataCubit.addReceiverChatData(sharedRepository.userModel);
-        isReceiverDataAdded = true; // Mark as added
-      }
+
+
+      unreadMessagesCountCubit.updateUnreadMessagesCountOfReceiver(receiverId: receiverId, isOpened: false, );
+
     }).catchError((e) {
       log('sendMessage: $e');
       if (!isClosed) {

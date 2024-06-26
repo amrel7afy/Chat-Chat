@@ -1,7 +1,10 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/theming/my_colors.dart';
+import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_state.dart';
 
 import '../../../../../core/theming/styles.dart';
 import '../../view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
@@ -16,16 +19,21 @@ class LastMessageTimeAndUnreadCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    //log(context.read<ListenToMessagesCubit>().lastMessageDateTime);
+    log(context.read<ListenToMessagesCubit>().lastMessageDateTime);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        //هنا استخدمت blocbuilder عشان ي update الlastMessageDateTime
+        BlocBuilder<ListenToMessagesCubit, ListenToMessagesState>(
+  builder: (context, state) {
+    return Text(
           context.read<ListenToMessagesCubit>().lastMessageDateTime,
           style: MyTextStyles.font11Weight600.copyWith(color:Colors.black45),
-        ),
-        const UnReadMessagesBloc(),
+        );
+  },
+),
+         UnReadMessagesBloc(),
 
       ],
     );
@@ -44,7 +52,9 @@ class UnReadMessagesBloc extends StatelessWidget {
         if(state is ExistsUnreadMessagesState){
           return buildUnReadMessageAvatar(state);}
         else{
-          return const SizedBox(height: 1,width: 1,);
+          return const SizedBox(
+            width: 1,height: 1,
+          );
         }
       },
     );

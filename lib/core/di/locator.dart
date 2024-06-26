@@ -13,10 +13,6 @@ import '../../features/contacts/presentation/view_model/check_contact_cubit/chec
 import '../../features/information/presentation/view_model/information_cubit.dart';
 import '../../features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import '../../features/login/presentation/view_model/otp_cubit/otp_cubit.dart';
-// import '../../features/chatting/presentation/view_model/add_receiver_chat_data_cubit/add_receiver_chat_data_cubit.dart';
-// import '../../features/profile/presentation/view_model/edit_profile_cubit/edit_profile_cubit.dart';
-// import '../../features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
-// import '../../features/chatting/presentation/view_model/unread_messages_count_cubit/unread_messages_count_cubit.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -32,11 +28,8 @@ void setupLocator() {
  locator.registerFactory<ListenToAllChatsCubit>(() => ListenToAllChatsCubit(locator<SharedRepository>()));
  locator.registerFactory<CheckContactsCubit>(() => CheckContactsCubit(locator<SharedRepository>()));
  locator.registerFactory<ListenToAllUsersCubit>(() => ListenToAllUsersCubit(locator<SharedRepository>()));
- locator.registerFactory<ListenToMessagesCubit>(() => ListenToMessagesCubit(locator<SharedRepository>(), ));
+ locator.registerFactory<ListenToMessagesCubit>(() => ListenToMessagesCubit(locator<SharedRepository>(), locator<UnreadMessagesCountCubit>()));
  locator.registerFactory<AddReceiverChatDataCubit>(() => AddReceiverChatDataCubit(locator<SharedRepository>()));
  locator.registerFactory<UnreadMessagesCountCubit>(() => UnreadMessagesCountCubit(locator<SharedRepository>()));
 
- // locator.registerFactory<AddReceiverChatDataCubit>(() => AddReceiverChatDataCubit(locator<SharedRepository>()));
- // locator.registerFactory<EditProfileCubit>(() => EditProfileCubit(locator<SharedRepository>()));
- // locator.registerFactory<UnreadMessagesCountCubit>(() => UnreadMessagesCountCubit(locator<SharedRepository>()));
 }

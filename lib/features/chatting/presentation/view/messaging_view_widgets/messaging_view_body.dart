@@ -5,6 +5,7 @@ import 'package:new_chat_with_me/core/widgets/custom_error_message.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view/messaging_view_widgets/success_body.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_state.dart';
+import 'package:new_chat_with_me/features/chatting/presentation/view_model/unread_messages_count/unread_messages_count_cubit.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/widgets/loading_indicator.dart';
 import '../../view_model/add_reciever_chat_data_cubit/add_reciever_chat_data_cubit.dart';
@@ -20,20 +21,28 @@ class MessagingViewBody extends StatefulWidget {
 }
 
 class _MessagingViewBodyState extends State<MessagingViewBody> {
+  bool isOpened=false;
+  bool isNoMessages=false;
+
   @override
   void initState() {
     super.initState();
     context.read<ListenToMessagesCubit>().listenToMessages(receiverId: widget.friendModel.userId);
+    context.read<UnreadMessagesCountCubit>().resetUnreadMessagesToZero(receiverId: widget.friendModel.userId,);
+    isOpened=true;
   }
+
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: kLeftHomeViewPadding, top: 5),
             child: BlocConsumer<ListenToMessagesCubit, ListenToMessagesState>(
+              buildWhen: (p,c)=>c is ListenToMessagesSuccessState||c is NoMessagesState ,
               builder: (context, state) {
                 if (state is ListenToMessagesLoadingState) {
                   return const CustomLoadingIndicator();
@@ -46,16 +55,25 @@ class _MessagingViewBodyState extends State<MessagingViewBody> {
                 }
               },
               listener: (context, state) {
-                if (state is NoMessagesState) {
-                  context.read<AddReceiverChatDataCubit>().addReceiverChatData(widget.friendModel);
+                if(state is ListenToMessagesSuccessState&&isOpened){
+                  resetUnreadMessagesToZero();
                 }
+                if(state is NoMessagesState){
+
+                   isNoMessages=true;
+
+                }
+
               },
             ),
           ),
         ),
-        MessageSender(friendModel: widget.friendModel),
+        MessageSender(friendModel: widget.friendModel,isNoMessages: isNoMessages,),
       ],
     );
+  }
+  resetUnreadMessagesToZero(){
+    context.read<UnreadMessagesCountCubit>().resetUnreadMessagesToZero(receiverId: widget.friendModel.userId,);
   }
 }
 

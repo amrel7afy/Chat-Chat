@@ -28,14 +28,14 @@ class OtherChatBubble extends StatelessWidget {
           children: [
             Text(
               '${messageModel.message} ',
-              style: MyTextStyles.font11Weight600.copyWith(color: MyColors.kPrimaryColor),
+              style: MyTextStyles.font11Weight600.copyWith(color: Colors.white),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   DateFormat('h:mm a').format(dateTime),
-          style: MyTextStyles.font11Weight600.copyWith(color: MyColors.kPrimaryColor,fontSize: 10, fontWeight: FontWeight.w900)
+          style: MyTextStyles.font11Weight600.copyWith(color: Colors.white,fontSize: 10, fontWeight: FontWeight.w900)
 
                 ),
                 const SizedBox(width: 3,),
