@@ -22,19 +22,16 @@ class MessagingViewBody extends StatefulWidget {
 
 class _MessagingViewBodyState extends State<MessagingViewBody> {
   bool isOpened=false;
+  bool isNoMessages=false;
+
   @override
   void initState() {
     super.initState();
     context.read<ListenToMessagesCubit>().listenToMessages(receiverId: widget.friendModel.userId);
     context.read<UnreadMessagesCountCubit>().resetUnreadMessagesToZero(receiverId: widget.friendModel.userId,);
-  isOpened=true;
+    isOpened=true;
   }
-setToZero(){
-    if(isOpened){
-      context.read<UnreadMessagesCountCubit>().resetUnreadMessagesToZero(receiverId: widget.friendModel.userId,);
 
-    }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +42,7 @@ setToZero(){
           child: Padding(
             padding: const EdgeInsets.only(left: kLeftHomeViewPadding, top: 5),
             child: BlocConsumer<ListenToMessagesCubit, ListenToMessagesState>(
-              buildWhen: (p,c)=>c is ListenToMessagesSuccessState ,
+              buildWhen: (p,c)=>c is ListenToMessagesSuccessState||c is NoMessagesState ,
               builder: (context, state) {
                 if (state is ListenToMessagesLoadingState) {
                   return const CustomLoadingIndicator();
@@ -58,16 +55,25 @@ setToZero(){
                 }
               },
               listener: (context, state) {
-                if(state is ListenToMessagesSuccessState){
-                  setToZero();
+                if(state is ListenToMessagesSuccessState&&isOpened){
+                  resetUnreadMessagesToZero();
                 }
+                if(state is NoMessagesState){
+
+                   isNoMessages=true;
+
+                }
+
               },
             ),
           ),
         ),
-        MessageSender(friendModel: widget.friendModel),
+        MessageSender(friendModel: widget.friendModel,isNoMessages: isNoMessages,),
       ],
     );
+  }
+  resetUnreadMessagesToZero(){
+    context.read<UnreadMessagesCountCubit>().resetUnreadMessagesToZero(receiverId: widget.friendModel.userId,);
   }
 }
 

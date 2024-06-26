@@ -3,15 +3,21 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/shared/user_model.dart';
+import 'package:new_chat_with_me/features/chatting/presentation/view_model/add_reciever_chat_data_cubit/add_reciever_chat_data_state.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_to_messages_cubit/listen_to_messages_cubit.dart';
 import '../../../../../core/theming/my_colors.dart';
+import '../../view_model/add_reciever_chat_data_cubit/add_reciever_chat_data_cubit.dart';
 
 class MessageSender extends StatelessWidget {
   final UserModel friendModel;
-  const MessageSender({super.key, required this.friendModel});
+   bool isNoMessages;
+
+   MessageSender(
+      {super.key, required this.friendModel, required this.isNoMessages});
 
   @override
   Widget build(BuildContext context) {
+
     return Row(
       children: [
         Expanded(
@@ -22,8 +28,8 @@ class MessageSender extends StatelessWidget {
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(20)),
             child: TextFormField(
-              controller: context.read<ListenToMessagesCubit>().messageController,
-
+              controller:
+                  context.read<ListenToMessagesCubit>().messageController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
               cursorHeight: 23,
@@ -35,7 +41,9 @@ class MessageSender extends StatelessWidget {
             ),
           ),
         ),
-        buildSenderIconButton(context,),
+        buildSenderIconButton(
+          context,
+        ),
         const SizedBox(),
       ],
     );
@@ -46,11 +54,18 @@ class MessageSender extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8.0),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: ()  {
-           context.read<ListenToMessagesCubit>().sendMessage(
-            receiverId: friendModel.userId,
-          );
+        onTap: () async {
 
+          await context.read<ListenToMessagesCubit>().sendMessage(
+                receiverId: friendModel.userId,
+              );
+          log(isNoMessages.toString());
+          if (isNoMessages) {
+            context
+                .read<AddReceiverChatDataCubit>()
+                .addReceiverChatData(friendModel);
+            isNoMessages=false;
+          }
           checkAndAnimate(context);
 
           // Clear the message controller after sending the message
@@ -70,8 +85,7 @@ class MessageSender extends StatelessWidget {
   void checkAndAnimate(BuildContext context) {
     if (context.read<ListenToMessagesCubit>().messages.isNotEmpty) {
       context.read<ListenToMessagesCubit>().scrollController.animateTo(0,
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.bounceOut);
+          duration: const Duration(milliseconds: 400), curve: Curves.bounceOut);
     }
   }
 }

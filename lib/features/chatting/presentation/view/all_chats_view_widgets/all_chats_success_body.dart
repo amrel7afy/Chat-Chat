@@ -33,6 +33,8 @@ class ChatSuccessBody extends StatelessWidget {
                 providers: [
                   BlocProvider(
                     create: (context) => locator<ListenToMessagesCubit>(),
+                  ),  BlocProvider(
+                    create: (context) => locator<UnreadMessagesCountCubit>(),
                   ),
 
 

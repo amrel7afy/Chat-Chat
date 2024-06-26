@@ -101,34 +101,24 @@ class AppRouter {
 
   List<SingleChildWidget> _messagingProviders() {
     return [
+      BlocProvider.value(value: locator<ListenToMessagesCubit>()),
       BlocProvider(
-        create: (context) => ListenToMessagesCubit(
-            locator<SharedRepository>(),
-            locator<
-                UnreadMessagesCountCubit>()), // Listen to messages for the specific friendModel
+        create: (context) => locator<AddReceiverChatDataCubit>(),
       ),
-      BlocProvider(
-        create: (context) =>
-            AddReceiverChatDataCubit(locator<SharedRepository>()),
-        lazy: false,
-      ),
-      BlocProvider.value(
-          value: locator<UnreadMessagesCountCubit>())
-
+      BlocProvider.value(value: locator<UnreadMessagesCountCubit>())
     ];
   }
 
   List<SingleChildWidget> _homeProviders() {
     return [
       BlocProvider(
-          create: (context) =>
-              ListenToAllChatsCubit(locator<SharedRepository>())
-                ..listenToAllChats(),
-          lazy: false),
+        create: (context) =>
+            locator<ListenToAllChatsCubit>()..listenToAllChats(),
+      ),
       BlocProvider(
-          create: (context) =>
-              locator<ListenToAllUsersCubit>()..listenToAllUsers(),
-          lazy: false),
+        create: (context) =>
+            locator<ListenToAllUsersCubit>()..listenToAllUsers(),
+      ),
       BlocProvider(create: (context) => locator<UnreadMessagesCountCubit>())
     ];
   }
