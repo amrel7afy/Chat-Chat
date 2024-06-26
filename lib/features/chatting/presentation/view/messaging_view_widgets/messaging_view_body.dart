@@ -59,9 +59,9 @@ class _MessagingViewBodyState extends State<MessagingViewBody> {
                   resetUnreadMessagesToZero();
                 }
                 if(state is NoMessagesState){
-
+                 setState(() {
                    isNoMessages=true;
-
+                 });
                 }
 
               },

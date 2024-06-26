@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
-import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 import 'package:new_chat_with_me/core/shared/user_model.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/add_reciever_chat_data_cubit/add_reciever_chat_data_cubit.dart';
 import 'package:new_chat_with_me/features/chatting/presentation/view_model/listen_all_users_cubit/listen_to_all_users_cubit.dart';
@@ -117,7 +116,7 @@ class AppRouter {
       ),
       BlocProvider(
         create: (context) =>
-            locator<ListenToAllUsersCubit>()..listenToAllUsers(),
+            locator<ListenToAllUsersCubit>()..listenToAllUsers(),lazy: false,
       ),
       BlocProvider(create: (context) => locator<UnreadMessagesCountCubit>())
     ];
