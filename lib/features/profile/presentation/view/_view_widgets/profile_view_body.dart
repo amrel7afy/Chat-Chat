@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/core/helper/extensions.dart';
+import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/widgets/snack_bar.dart';
@@ -22,6 +24,11 @@ class ProfileViewBody extends StatefulWidget {
 }
 
 class _ProfileViewBodyState extends State<ProfileViewBody> {
+  @override
+  void initState() {
+    locator<SharedRepository>().printUserModel();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return  CustomScrollView(

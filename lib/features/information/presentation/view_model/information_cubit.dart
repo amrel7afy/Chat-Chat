@@ -129,21 +129,34 @@ setUpControllerData(){
 }
 
 
-  updateUserProfile(
-      ) async {
-    try{
+  Future<String> getDownloadUrl(String ref) async {
+    try {
+      String downloadUrl = await locator<FirebaseStorage>().ref().child(ref).getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      log('getDownloadUrl Error: $e');
+      throw Exception('Could not get download URL');
+    }
+  }
+
+  void updateUserProfile() async {
+    try {
       emit(InformationLoading());
       log('sharedRepository.image: ${sharedRepository.image?.path.toString()}');
       if (sharedRepository.image != null) {
         File compressedFile = await compressImage(sharedRepository.image!);
-        await storeFileToCloud('profilePic/${locator<FirebaseAuth>().currentUser!.uid}',compressedFile);
+        String profilePicUrl = await storeFileToCloud('profilePic/${locator<FirebaseAuth>().currentUser!.uid}', compressedFile);
+        sharedRepository.userModel.profilePic = profilePicUrl;
+      } else {
+        sharedRepository.userModel.profilePic = await getDownloadUrl('profilePic/${locator<FirebaseAuth>().currentUser!.uid}');
       }
       await locator<FirebaseFirestore>()
           .collection(kUserCollection)
-          .doc( sharedRepository.userModel.userId).update(sharedRepository.userModel.toJson());
+          .doc(sharedRepository.userModel.userId)
+          .update(sharedRepository.userModel.toJson());
       await saveUserToSP(sharedRepository.userModel);
       emit(InformationSuccess());
-    }catch(e){
+    } catch (e) {
       log(e.toString());
       emit(InformationFailure(e.toString()));
     }

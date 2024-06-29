@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:new_chat_with_me/core/shared/user_model.dart';
@@ -11,6 +12,6 @@ class SharedRepository {
   List<UserModel> userChats = [];
 
   printUserModel(){
-    log(userModel.)
+    log(userModel.toString());
   }
 }

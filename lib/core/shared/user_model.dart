@@ -18,7 +18,10 @@ class UserModel {
     required this.unreadMessagesCount,
 
   });
-
+  @override
+  String toString() {
+    return 'UserModel{userId: $userId, name: $name, email: $email, phoneNumber: $phoneNumber, bio: $bio, profilePic: $profilePic, unreadMessagesCount: $unreadMessagesCount}';
+  }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     final userId = json['uid'];
