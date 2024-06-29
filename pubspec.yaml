@@ -38,8 +38,8 @@ dependencies:
   #responsive
   flutter_screenutil:
   #phone contacts
-  contacts_service:
-  permission_handler:
+  contacts_service: ^0.6.3
+  permission_handler: ^11.3.1
   # state manager
   flutter_bloc:
   #caching

@@ -8,7 +8,12 @@ sealed class InformationState {}
 final class InformationInitial extends InformationState {}
 final class InformationLoading extends InformationState {}
 
-final class InformationFailure extends InformationState {}
+final class InformationFailure extends InformationState {
+  final String error;
+  InformationFailure (this.error){
+    log(error.toString());
+  }
+}
 
 class InformationPickImageSuccess extends InformationState {}
 class InformationPickImageFailure  extends InformationState {
@@ -27,8 +32,8 @@ class InformationStoringFireStoreErrorState extends InformationState {
 }
 
 class InformationSuccess extends InformationState {
-  UserModel userModel;
+  UserModel? userModel;
 
-  InformationSuccess(this.userModel);
+  InformationSuccess([this.userModel]);
 }
 final class InformationStoringUserFireStoreSuccess extends InformationState {}

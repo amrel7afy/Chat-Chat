@@ -25,6 +25,7 @@ class InformationCubit extends Cubit<InformationState> {
   TextEditingController bioController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+
   InformationCubit(this.sharedRepository) : super(InformationInitial());
 
   String? nameValidator(String? value) {
@@ -76,7 +77,7 @@ class InformationCubit extends Cubit<InformationState> {
     emit(InformationLoading());
     try {
       File compressedFile = await compressImage(sharedRepository.image!);
-      await storeFileToStorage(
+      await storeFileToCloud(
           "profilePic/${locator<FirebaseAuth>().currentUser!.uid}", compressedFile)
           .then((value) {
         assignUserData(value);
@@ -108,7 +109,7 @@ class InformationCubit extends Cubit<InformationState> {
     sharedRepository.userModel.bio = bioController.text.trim();
   }
 
-  Future<String> storeFileToStorage(String ref, File file) async {
+  Future<String> storeFileToCloud(String ref, File file) async {
     try {
       UploadTask uploadTask = locator<FirebaseStorage>().ref().child(ref).putFile(file);
       TaskSnapshot snapshot = await uploadTask;
@@ -121,5 +122,32 @@ class InformationCubit extends Cubit<InformationState> {
       return '';
     }
   }
+setUpControllerData(){
+  nameController.text = sharedRepository.userModel.name ;
+  emailController.text = sharedRepository.userModel.email ;
+  bioController.text = sharedRepository.userModel.bio ;
+}
+
+
+  updateUserProfile(
+      ) async {
+    try{
+      emit(InformationLoading());
+      log('sharedRepository.image: ${sharedRepository.image?.path.toString()}');
+      if (sharedRepository.image != null) {
+        File compressedFile = await compressImage(sharedRepository.image!);
+        await storeFileToCloud('profilePic/${locator<FirebaseAuth>().currentUser!.uid}',compressedFile);
+      }
+      await locator<FirebaseFirestore>()
+          .collection(kUserCollection)
+          .doc( sharedRepository.userModel.userId).update(sharedRepository.userModel.toJson());
+      await saveUserToSP(sharedRepository.userModel);
+      emit(InformationSuccess());
+    }catch(e){
+      log(e.toString());
+      emit(InformationFailure(e.toString()));
+    }
+  }
+
 }
 

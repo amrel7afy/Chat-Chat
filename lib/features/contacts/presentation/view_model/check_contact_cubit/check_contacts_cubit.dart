@@ -16,17 +16,29 @@ class CheckContactsCubit extends Cubit<CheckContactsState> {
   CheckContactsCubit(this.sharedRepository) : super(CheckContactsInitial());
   List<Contact> contacts = [];
   List<UserModel> matchedUsersWithContacts = [];
-
+// Request permissions
+  Future<bool> _requestPermissions() async {
+    var status = await Permission.contacts.request();
+    if (status.isGranted) {
+      return true;
+    } else if (status.isDenied) {
+      // Show a message to the user to enable contacts permission from settings
+      openAppSettings();
+      return false;
+    }
+    return false;
+  }
   getContacts() async {
     // Request permission to access contacts
     emit(CheckContactsLoading());
-    var status = await Permission.contacts.request();
-    if (status.isGranted) {
+    bool isGranted = await _requestPermissions();
+    if (isGranted) {
       try {
         contacts = [];
         List<Contact> data = await ContactsService.getContacts();
-        log("List<Contact> => ${data.map((e) => e.phones?.first.value ?? '')}");
+      //  log("List<Contact> => ${data.map((e) => e.phones?.first.value ?? '')}");
         contacts.addAll(data);
+        log(contacts.length.toString());
       } catch (e, s) {
         log("Error get contacts $e ,,, $s");
         emit(

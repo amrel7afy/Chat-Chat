@@ -1,24 +1,25 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/features/information/presentation/view/information_view_widgets/select_image_avatar.dart';
+import 'package:new_chat_with_me/features/information/presentation/view_model/information_state.dart';
 
 import '../../../../../core/theming/my_colors.dart';
 import '../../view_model/information_cubit.dart';
 
 class SelectImageAvatarStack extends StatelessWidget {
-
-   const SelectImageAvatarStack({super.key, });
+   SelectImageAvatarStack({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: AlignmentDirectional.bottomEnd,
       children: [
-        const SelectImageAvatar(),
+         SelectImageAvatar(),
         IconButton(
           onPressed: () {
-            context.read<InformationCubit>().pickImage();
+            context.read<InformationCubit>().pickImage( );
           },
           icon: const CircleAvatar(
             radius: 16,

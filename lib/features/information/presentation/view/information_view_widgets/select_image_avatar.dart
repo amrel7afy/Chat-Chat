@@ -4,16 +4,11 @@ import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 
 import '../../../../../core/theming/my_colors.dart';
 
-class SelectImageAvatar extends StatefulWidget {
-   const SelectImageAvatar({
+class SelectImageAvatar extends StatelessWidget {
+    SelectImageAvatar({
     super.key,
   });
 
-  @override
-  State<SelectImageAvatar> createState() => _SelectImageAvatarState();
-}
-
-class _SelectImageAvatarState extends State<SelectImageAvatar> {
   bool checkImageFileIfNull() {
     return locator<SharedRepository>().image == null;
   }
@@ -27,7 +22,6 @@ class _SelectImageAvatarState extends State<SelectImageAvatar> {
         return  assetAvatar();
       }
     }
-
     return pickedAvatar();
 
   }
@@ -65,5 +59,4 @@ class _SelectImageAvatarState extends State<SelectImageAvatar> {
       backgroundImage: NetworkImage(userModelImage),
     );
   }
-
 }
