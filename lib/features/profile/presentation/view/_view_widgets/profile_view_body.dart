@@ -2,23 +2,36 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_chat_with_me/core/widgets/vertical_and_horizontal_space.dart';
-import 'package:new_chat_with_me/features/information/presentation/view/information_view_widgets/select_image_avatar_consumer.dart';
-import 'package:new_chat_with_me/features/information/presentation/view_model/information_state.dart';
+import 'package:new_chat_with_me/core/di/locator.dart';
+import 'package:new_chat_with_me/core/helper/extensions.dart';
+import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 
-import '../../../../../core/AppRouter.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/widgets/snack_bar.dart';
-import '../../view_model/information_cubit.dart';
-import 'confirm_informations_animated_progress_button.dart';
-import 'information_form.dart';
+import '../../../../../core/widgets/vertical_and_horizontal_space.dart';
+import '../../../../information/presentation/view/information_view_widgets/confirm_informations_animated_progress_button.dart';
+import '../../../../information/presentation/view/information_view_widgets/information_form.dart';
+import '../../../../information/presentation/view/information_view_widgets/select_image_avatar_consumer.dart';
+import '../../../../information/presentation/view_model/information_cubit.dart';
+import '../../../../information/presentation/view_model/information_state.dart';
 
-class InformationViewBody extends StatelessWidget {
-  const InformationViewBody({super.key});
+
+class ProfileViewBody extends StatefulWidget {
+  const ProfileViewBody({super.key});
 
   @override
+  State<ProfileViewBody> createState() => _ProfileViewBodyState();
+}
+
+class _ProfileViewBodyState extends State<ProfileViewBody> {
+  @override
+  void initState() {
+    locator<SharedRepository>().printUserModel();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
+    return  CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
           child: BlocConsumer<InformationCubit, InformationState>(
@@ -36,8 +49,8 @@ class InformationViewBody extends StatelessWidget {
                     const VerticalSpacer(20),
                     InformationAnimatedProgressButton(
                       onPressed: () {
-                        validateAndCreateUser(context);
-                      }, text: 'Continue',
+                      context.read<InformationCubit>().updateUserProfile();
+                      }, text: 'Edit',
                     )
                   ],
                 ),
@@ -51,23 +64,16 @@ class InformationViewBody extends StatelessWidget {
                 showSnackBar(context, state.error);
               }
               if (state is InformationSuccess) {
-                Navigator.pushReplacementNamed(context, AppRouter.homeView,
-                    arguments: state.userModel);
-                log('Navigated');
+                if(locator<SharedRepository>().image!=null){
+                  locator<SharedRepository>().image=null;
+                }
+                context.pop();
+
               }
             },
           ),
         ),
       ],
     );
-  }
-
-  void validateAndCreateUser(BuildContext context) {
-     if (context.read<InformationCubit>().formKey.currentState!.validate() &&
-        context.read<InformationCubit>().imageValidator() == null) {
-      context.read<InformationCubit>().createUserToFireStore();
-    } else if (context.read<InformationCubit>().imageValidator() != null) {
-      showSnackBar(context, context.read<InformationCubit>().imageValidator()!);
-    }
   }
 }

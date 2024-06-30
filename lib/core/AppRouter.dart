@@ -12,6 +12,7 @@ import 'package:new_chat_with_me/features/contacts/presentation/view_model/check
 import 'package:new_chat_with_me/features/information/presentation/view_model/information_cubit.dart';
 import 'package:new_chat_with_me/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:new_chat_with_me/features/login/presentation/view_model/otp_cubit/otp_cubit.dart';
+import 'package:new_chat_with_me/features/profile/presentation/view/profile_view.dart';
 import '../features/chatting/presentation/view/all_chats_view.dart';
 import '../features/chatting/presentation/view/messaging_view.dart';
 import '../features/chatting/presentation/view_model/listen_to_all_chats_cubit/listen_to_all_chats_cubit.dart';
@@ -49,6 +50,12 @@ class AppRouter {
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case profileView:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+              value: locator<InformationCubit>()..setUpControllerData(),
+              child: const ProfileView(),
+            ));
       case homeView:
         return MaterialPageRoute(
           builder: (context) => MultiBlocProvider(

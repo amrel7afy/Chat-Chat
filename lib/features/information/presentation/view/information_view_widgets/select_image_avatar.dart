@@ -1,33 +1,29 @@
+
 import 'package:flutter/material.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 
 import '../../../../../core/theming/my_colors.dart';
 
-class SelectImageAvatar extends StatefulWidget {
-   const SelectImageAvatar({
+class SelectImageAvatar extends StatelessWidget {
+    SelectImageAvatar({
     super.key,
   });
 
-  @override
-  State<SelectImageAvatar> createState() => _SelectImageAvatarState();
-}
-
-class _SelectImageAvatarState extends State<SelectImageAvatar> {
-  bool checkImageFileIfNull() {
+  bool imageFileIsNull() {
     return locator<SharedRepository>().image == null;
   }
 
   CircleAvatar getImageFileAvatar(BuildContext context) {
+
     var userModelImage = locator<SharedRepository>().userModel.profilePic;
-    if (checkImageFileIfNull()) {
+    if (imageFileIsNull()) {
       if (userModelImage.isNotEmpty && Uri.tryParse(userModelImage)?.hasAbsolutePath == true) {
         return networkAvatar(userModelImage);
       } else {
         return  assetAvatar();
       }
     }
-
     return pickedAvatar();
 
   }
@@ -65,5 +61,4 @@ class _SelectImageAvatarState extends State<SelectImageAvatar> {
       backgroundImage: NetworkImage(userModelImage),
     );
   }
-
 }

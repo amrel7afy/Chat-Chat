@@ -16,23 +16,23 @@ import '../../view_model/information_state.dart';
 
 enum ButtonState { init, loading, done, error }
 
-class ConfirmInfoAnimatedProgressButton extends StatefulWidget {
-
+class InformationAnimatedProgressButton extends StatefulWidget {
+  final String text;
   final VoidCallback onPressed;
 
-  const ConfirmInfoAnimatedProgressButton({
+  const InformationAnimatedProgressButton({
     super.key,
 
-    required this.onPressed,
+    required this.onPressed, required this.text,
   });
 
   @override
-  State<ConfirmInfoAnimatedProgressButton> createState() =>
-      _ConfirmInfoAnimatedProgressButtonState();
+  State<InformationAnimatedProgressButton> createState() =>
+      _InformationAnimatedProgressButtonState();
 }
 
-class _ConfirmInfoAnimatedProgressButtonState
-    extends State<ConfirmInfoAnimatedProgressButton> {
+class _InformationAnimatedProgressButtonState
+    extends State<InformationAnimatedProgressButton> {
   ButtonState state = ButtonState.init;
   bool isAnimating = true;
 
@@ -67,7 +67,7 @@ class _ConfirmInfoAnimatedProgressButtonState
             curve: Curves.easeIn,
             child: isStretched
                 ? CustomButton(
-                  text: 'Continue',
+                  text:widget.text,
                     onPressed: widget.onPressed,
                     textStyle:
                         MyTextStyles.font20Weight600.copyWith(color: Colors.white),

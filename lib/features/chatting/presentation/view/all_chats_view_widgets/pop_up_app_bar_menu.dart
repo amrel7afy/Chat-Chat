@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_chat_with_me/core/AppRouter.dart';
+import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/core/helper/extensions.dart';
+import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 import 'package:new_chat_with_me/core/theming/my_colors.dart';
 
 import '../../../../../core/constants/constants.dart';
@@ -25,6 +27,7 @@ class PopUpMenu extends StatelessWidget {
             Navigator.pushNamedAndRemoveUntil(
                 context, AppRouter.loginView, (route) => false);
             CacheHelper.removeData(key: userModelKey);
+            locator<SharedRepository>().image=null;
             CacheHelper.removeData(key: isSignedInKey);
           });
         }
