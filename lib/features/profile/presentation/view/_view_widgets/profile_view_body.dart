@@ -68,7 +68,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                   locator<SharedRepository>().image=null;
                 }
                 context.pop();
-                log('Navigated');
+
               }
             },
           ),
