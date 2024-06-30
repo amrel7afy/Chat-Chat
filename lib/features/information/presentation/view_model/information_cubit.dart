@@ -78,7 +78,8 @@ class InformationCubit extends Cubit<InformationState> {
     try {
       File compressedFile = await compressImage(sharedRepository.image!);
       await storeFileToCloud(
-          "profilePic/${locator<FirebaseAuth>().currentUser!.uid}", compressedFile)
+          "profilePic/${locator<FirebaseAuth>().currentUser!.uid}",
+          compressedFile)
           .then((value) {
         assignUserData(value);
         emit(InformationStoringUserFireStoreSuccess());
@@ -103,15 +104,18 @@ class InformationCubit extends Cubit<InformationState> {
     removeSubString((locator<FirebaseAuth>().currentUser!.phoneNumber!), '+2');
     sharedRepository.userModel.phoneNumber = phoneNumberWithoutCountryCode;
     sharedRepository.userModel.profilePic = value;
-    sharedRepository.userModel.userId = locator<FirebaseAuth>().currentUser!.phoneNumber!;
+    sharedRepository.userModel.userId =
+    locator<FirebaseAuth>().currentUser!.phoneNumber!;
     sharedRepository.userModel.email = emailController.text.trim();
     sharedRepository.userModel.name = nameController.text.trim();
     sharedRepository.userModel.bio = bioController.text.trim();
   }
 
-  Future<String> storeFileToCloud(String ref, File file) async {
+  Future<String> storeFileToCloud(String path, File file) async {
     try {
-      UploadTask uploadTask = locator<FirebaseStorage>().ref().child(ref).putFile(file);
+      UploadTask uploadTask = locator<FirebaseStorage>().ref()
+          .child(path)
+          .putFile(file);
       TaskSnapshot snapshot = await uploadTask;
       String downloadUrl = await snapshot.ref.getDownloadURL();
 
@@ -122,32 +126,59 @@ class InformationCubit extends Cubit<InformationState> {
       return '';
     }
   }
-setUpControllerData(){
-  nameController.text = sharedRepository.userModel.name ;
-  emailController.text = sharedRepository.userModel.email ;
-  bioController.text = sharedRepository.userModel.bio ;
-}
 
+  setUpControllerData() {
+    nameController.text = sharedRepository.userModel.name;
+    emailController.text = sharedRepository.userModel.email;
+    bioController.text = sharedRepository.userModel.bio;
+  }
 
-  updateUserProfile(
-      ) async {
-    try{
+  Future<String> getDownloadUrl(String ref) async {
+    try {
+      String downloadUrl = await locator<FirebaseStorage>().ref()
+          .child(ref)
+          .getDownloadURL();
+      log('getDownloadUrl: $downloadUrl');
+      return downloadUrl;
+    } catch (e) {
+      log('getDownloadUrl Error: $e');
+      throw Exception('Could not get download URL');
+    }
+  }
+
+  void updateUserProfile() async {
+    try {
       emit(InformationLoading());
-      log('sharedRepository.image: ${sharedRepository.image?.path.toString()}');
-      if (sharedRepository.image != null) {
-        File compressedFile = await compressImage(sharedRepository.image!);
-        await storeFileToCloud('profilePic/${locator<FirebaseAuth>().currentUser!.uid}',compressedFile);
-      }
+
+      await checkIfImageSelectedOrNotAndUpload();
+
       await locator<FirebaseFirestore>()
           .collection(kUserCollection)
-          .doc( sharedRepository.userModel.userId).update(sharedRepository.userModel.toJson());
+          .doc(sharedRepository.userModel.userId)
+          .update(sharedRepository.userModel.toJson());
       await saveUserToSP(sharedRepository.userModel);
       emit(InformationSuccess());
-    }catch(e){
+    } catch (e) {
       log(e.toString());
       emit(InformationFailure(e.toString()));
     }
   }
+///
+  Future<dynamic> checkIfImageSelectedOrNotAndUpload() async {
+
+    if (sharedRepository.image != null) {
+      //user picked image
+      File compressedFile = await compressImage(sharedRepository.image!);
+
+      String path='profilePic/${locator<FirebaseAuth>().currentUser!.uid}';
+
+      String profilePicUrl = await storeFileToCloud(path, compressedFile);
+      sharedRepository.userModel.profilePic = profilePicUrl;
+
+    } else {
+      sharedRepository.userModel.profilePic = await getDownloadUrl(
+          'profilePic/${locator<FirebaseAuth>().currentUser!.uid}');
+    }
+  }
 
 }
-

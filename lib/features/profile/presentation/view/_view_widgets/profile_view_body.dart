@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/core/helper/extensions.dart';
+import 'package:new_chat_with_me/core/shared/shared_repo.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/widgets/snack_bar.dart';
@@ -57,6 +59,9 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                 showSnackBar(context, state.error);
               }
               if (state is InformationSuccess) {
+                if(locator<SharedRepository>().image!=null){
+                  locator<SharedRepository>().image=null;
+                }
                 context.pop();
                 log('Navigated');
               }

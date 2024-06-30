@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:new_chat_with_me/core/di/locator.dart';
 import 'package:new_chat_with_me/core/shared/shared_repo.dart';
@@ -9,13 +10,14 @@ class SelectImageAvatar extends StatelessWidget {
     super.key,
   });
 
-  bool checkImageFileIfNull() {
+  bool imageFileIsNull() {
     return locator<SharedRepository>().image == null;
   }
 
   CircleAvatar getImageFileAvatar(BuildContext context) {
+
     var userModelImage = locator<SharedRepository>().userModel.profilePic;
-    if (checkImageFileIfNull()) {
+    if (imageFileIsNull()) {
       if (userModelImage.isNotEmpty && Uri.tryParse(userModelImage)?.hasAbsolutePath == true) {
         return networkAvatar(userModelImage);
       } else {
