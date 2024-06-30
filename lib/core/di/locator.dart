@@ -20,7 +20,7 @@ void setupLocator() {
  locator.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
  locator.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
  locator.registerLazySingleton<FirebaseStorage>(() => FirebaseStorage.instance);
- locator.registerLazySingleton<SharedRepository>(() => SharedRepository());
+ locator.registerLazySingleton<SharedRepository>(() => SharedRepository()..printUserModel());
 
  locator.registerFactory<LoginCubit>(() => LoginCubit(locator<SharedRepository>()));
  locator.registerFactory<OTPCubit>(() => OTPCubit(locator<SharedRepository>()));

@@ -25,6 +25,11 @@ class ProfileViewBody extends StatefulWidget {
 
 class _ProfileViewBodyState extends State<ProfileViewBody> {
   @override
+  void initState() {
+    locator<SharedRepository>().printUserModel();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return  CustomScrollView(
       slivers: [
