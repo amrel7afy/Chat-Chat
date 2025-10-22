@@ -1,4 +1,4 @@
-# FlutterChatApp
+# Chat-Chat
 
 A cross-platform chat application built with Flutter and Firebase.  
 Supports phone number authentication (OTP), real-time messaging (via Firebase Realtime Database or Firestore), and modern chat UI features.
