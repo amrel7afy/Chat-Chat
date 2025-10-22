@@ -8,7 +8,6 @@ Supports phone number authentication (OTP), real-time messaging (via Firebase Re
 ## 🚀 Features
 
 - Phone number authentication using Firebase OTP.  
-  :contentReference[oaicite:2]{index=2}  
 - Real-time chat (one-to-one).  
 - User profiles & presence status.  
 - Responsive UI for Android & iOS.
